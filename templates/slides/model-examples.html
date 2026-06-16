@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>教学模型示例 · OS 内存管理</title>
+<link rel="stylesheet" href="../../assets/base.css">
+<link rel="stylesheet" href="../../assets/themes/learning-light.css" id="theme-link">
+<!-- KaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="lrn-deck" data-themes="learning-light,learning-dark,learning-print,learning-colorful">
+<div class="deck">
+
+<!-- ════════════════════════════════════════════════════════════
+     MODEL 1: WWH (What → Why → How)
+     主题：虚拟内存
+     序列：Cover → What → Why → How
+     ════════════════════════════════════════════════════════════ -->
+
+  <!-- M1S1: WWH Cover -->
+  <section class="slide lrn-cover is-active" data-title="WWH · 封面">
+    <div class="kicker">教学模型示例 · WWH</div>
+    <h1>操作系统虚拟内存</h1>
+    <p class="subtitle">What（是什么）→ Why（为什么需要）→ How（怎么实现）。经典三段式教学法，适合引入全新概念。</p>
+    <div class="meta">
+      <span>⏱ 预计 30 分钟</span>
+      <span>📚 先修：进程与线程基础</span>
+      <span>⭐ 难度：中等</span>
+    </div>
+  </section>
+
+  <!-- M1S2: WWH — What (概念定义) -->
+  <section class="slide lrn-3" data-title="WWH · What: 虚拟内存是什么">
+    <aside class="lrn-sidebar">
+      <div class="lrn-toc">
+        <div class="lrn-chapter">WWH 模型 · 虚拟内存</div>
+        <ul class="lrn-tree">
+          <li class="done current">What — 概念定义
+            <ul><li class="done current">定义 + 公式</li><li>Why</li><li>How</li></ul>
+          </li>
+        </ul>
+      </div>
+      <div class="lrn-formula-ref">
+        <div class="lrn-formula-title">📐 核心公式</div>
+        $$EAT = (1-p)T_{mem} + p T_{disk}$$
+      </div>
+    </aside>
+    <div class="lrn-main">
+      <div class="block-def" style="grid-column:1/-1">
+        <span class="term">虚拟内存 (Virtual Memory)</span>
+        <p>操作系统为每个进程提供的<strong>独立的、连续的</strong>地址空间抽象。进程看到的虚拟地址不等于物理内存地址——由 MMU (Memory Management Unit) 硬件在每次内存访问时自动翻译。这个翻译过程对运行中的程序完全透明。</p>
+      </div>
+      <div class="block-formula">
+        <h4>有效访问时间 (EAT)</h4>
+        $$EAT = (1-p) \times T_{\text{mem}} + p \times T_{\text{disk}}$$
+        <div class="vars">
+          <code>p</code> = 缺页率 &nbsp;|&nbsp;
+          <code>T<sub>mem</sub></code> ≈ 100ns &nbsp;|&nbsp;
+          <code>T<sub>disk</sub></code> ≈ 10ms
+        </div>
+      </div>
+      <div class="block-callout">
+        <p>关键洞察：<strong>虚拟地址空间 ≠ 物理内存大小</strong>。一个 32 位进程"看到"4GB 地址空间，但可能只占用 200MB 物理内存——其余在磁盘上，按需换入。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- M1S3: WWH — Why (动机) -->
+  <section class="slide lrn-2" data-title="WWH · Why: 为什么需要虚拟内存">
+    <aside class="lrn-sidebar">
+      <div class="lrn-toc">
+        <div class="lrn-chapter">WWH 模型 · 虚拟内存</div>
+        <ul class="lrn-tree">
+          <li class="done">What
+            <ul><li>定义 + 公式</li></ul>
+          </li>
+          <li class="done current">Why — 动机
+            <ul><li class="done current">痛点 + 例子</li><li>How</li></ul>
+          </li>
+        </ul>
+      </div>
+    </aside>
+    <div class="lrn-main">
+      <div class="block-why">
+        <h4>没有虚拟内存的世界</h4>
+        <p class="pain">❌ 进程直接操作物理地址——进程 A 的 bug 可能覆盖进程 B 的数据</p>
+        <p class="pain">❌ 必须全部加载到内存才能运行——8GB 程序在 4GB 机器上无法启动</p>
+        <p class="pain">❌ 物理内存碎片化——即使总空闲够用，找不到连续大块分配给新进程</p>
+        <p class="gain">✅ 进程隔离——每个进程看到独立地址空间，无法互相破坏</p>
+        <p class="gain">✅ 按需换页——只需加载当前需要的页面，其余留在磁盘</p>
+        <p class="gain">✅ 内存超售——多个进程可共享物理内存，系统总"分配量"可超物理上限</p>
+      </div>
+      <div class="block-example">
+        <h4>现实案例：游戏引擎</h4>
+        <p>Unreal Engine 5 的 Nanite 虚拟几何系统需要处理数十亿个三角形——远超过 GPU 显存。它借鉴虚拟内存思想：只将当前视锥体内可见的几何微块加载到显存，远处或背面的数据留在系统内存/磁盘中。这是虚拟内存思想在图形领域的直接应用。</p>
+        <p style="margin-top:8px;font-size:12px;color:var(--text-3)">📊 没有虚拟几何 → 每帧 30M 三角形（卡顿）vs 有虚拟几何 → 每帧 300K 三角形（流畅 60fps）</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- M1S4: WWH — How (实现) -->
+  <section class="slide lrn-2" data-title="WWH · How: 虚拟内存怎么实现">
+    <aside class="lrn-sidebar">
+      <div class="lrn-toc">
+        <div class="lrn-chapter">WWH 模型 · 虚拟内存</div>
+        <ul class="lrn-tree">
+          <li class="done">What — 定义 + 公式</li>
+          <li class="done">Why — 痛点 + 例子</li>
+          <li class="done current">How — 实现原理
+            <ul><li class="done current">步骤 + 图示</li></ul>
+          </li>
+        </ul>
+      </div>
+      <div class="lrn-formula-ref">
+        <div class="lrn-formula-title">📐 偏移计算</div>
+        $$offset = vaddr \bmod 4096$$
+      </div>
+    </aside>
+    <div class="lrn-main">
+      <div class="block-steps">
+        <div class="step">
+          <h4>CPU 发出虚拟地址</h4>
+          <p>进程执行 <code>mov eax, [0x7fff1234]</code> — 这个地址是虚拟的，不是物理内存的某个位置</p>
+        </div>
+        <div class="step">
+          <h4>MMU 查询 TLB（快表）</h4>
+          <p>TLB 是硬件缓存，存放最近翻译过的虚拟→物理地址映射。命中率 > 99%，仅需 ~1 CPU cycle</p>
+        </div>
+        <div class="step">
+          <h4>TLB miss → 遍历多级页表</h4>
+          <p>MMU 从 CR3 寄存器取页表基址，逐级遍历 4 级页表（x86-64）。每级取 9 位虚拟地址做索引</p>
+        </div>
+        <div class="step">
+          <h4>缺页中断 (Page Fault)</h4>
+          <p>PTE 的 Present 位 = 0 → CPU 触发缺页异常 → OS 处理程序从磁盘交换区读入页面 → 更新页表 → 重试指令</p>
+        </div>
+      </div>
+      <div class="block-diagram">
+        <svg viewBox="0 0 360 250" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto">
+          <defs>
+            <marker id="arr" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+              <path d="M0,0 L7,2.5 L0,5 Z" fill="var(--text-3)"/>
+            </marker>
+          </defs>
+          <rect x="130" y="10" width="100" height="30" rx="5" fill="var(--surface-2)" stroke="var(--accent)" stroke-width="2"/>
+          <text x="180" y="30" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-1)">CPU</text>
+          <rect x="130" y="63" width="100" height="30" rx="5" fill="var(--lrn-badge-what)" stroke="var(--accent)" stroke-width="1.5"/>
+          <text x="180" y="83" text-anchor="middle" font-size="10" fill="var(--accent)">TLB (快表)</text>
+          <rect x="130" y="116" width="100" height="30" rx="5" fill="var(--surface-2)" stroke="var(--accent-2)" stroke-width="2"/>
+          <text x="180" y="136" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-1)">MMU</text>
+          <text x="70" y="100" text-anchor="middle" font-size="9" fill="var(--text-3)">虚拟地址</text>
+          <text x="250" y="70" text-anchor="middle" font-size="9" fill="var(--text-3)">命中 →</text>
+          <line x1="180" y1="40" x2="180" y2="61" stroke="var(--text-3)" stroke-width="1" marker-end="url(#arr)"/>
+          <line x1="180" y1="93" x2="180" y2="114" stroke="var(--text-3)" stroke-width="1" marker-end="url(#arr)"/>
+          <line x1="230" y1="78" x2="280" y2="78" stroke="var(--accent-3)" stroke-width="1.5" marker-end="url(#arr)"/>
+          <text x="258" y="72" text-anchor="middle" font-size="9" fill="var(--accent-3)">物理地址</text>
+          <rect x="130" y="168" width="100" height="30" rx="5" fill="var(--surface-2)" stroke="var(--accent-3)" stroke-width="2"/>
+          <text x="180" y="188" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-1)">RAM</text>
+          <line x1="180" y1="146" x2="180" y2="166" stroke="var(--text-3)" stroke-width="1" marker-end="url(#arr)"/>
+          <rect x="40" y="210" width="280" height="28" rx="4" fill="#fef2f2" stroke="var(--lrn-problem)" stroke-width="1"/>
+          <text x="180" y="229" text-anchor="middle" font-size="10" fill="var(--lrn-problem)">若页面不在 RAM → 缺页中断 → 从磁盘换入</text>
+          <line x1="180" y1="198" x2="180" y2="208" stroke="var(--lrn-problem)" stroke-width="1" stroke-dasharray="3,2"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     MODEL 2: Problem-First
+     主题：页面置换算法选择
+     序列：Cover → 痛点 → 探索失败 → 解法
+     ════════════════════════════════════════════════════════════ -->
+
+  <!-- M2S1: Problem-First Cover -->
+  <section class="slide lrn-cover" data-title="Problem-First · 封面">
+    <div class="kicker">教学模型示例 · Problem-First</div>
+    <h1>页面置换算法：哪个页面该被换出？</h1>
+    <p class="subtitle">痛点（内存满了怎么办）→ 探索（FIFO 为什么不行）→ 解法（LRU / Clock 算法）→ 反思（各算法适用场景）</p>
+    <div class="meta">
+      <span>⏱ 预计 40 分钟</span>
+      <span>📚 先修：虚拟内存基础</span>
+      <span>⭐ 难度：中等偏难</span>
+    </div>
+  </section>
+
+  <!-- M2S2: Problem-First — 痛点 -->
+  <section class="slide lrn-3" data-title="Problem-First · 痛点: 内存满了">
+    <aside class="lrn-sidebar">
+      <div class="lrn-toc">
+        <div class="lrn-chapter">Problem-First · 页面置换</div>
+        <ul class="lrn-tree">
+          <li class="done current">痛点 — 内存耗尽
+            <ul><li class="done current">为什么 + 例子</li><li>探索失败</li><li>解法</li></ul>
+          </li>
+        </ul>
+      </div>
+    </aside>
+    <div class="lrn-main">
+      <div class="block-why" style="grid-column:1/-1">
+        <h4>内存满了，然后呢？</h4>
+        <p class="pain">❌ 进程请求新页面 → 物理内存已全部占满 → <strong>必须换出一个旧页面</strong></p>
+        <p class="pain">❌ 换错了后果严重：刚换出的页面马上又被访问 → 再次缺页 → 磁盘 I/O 开销 ×2</p>
+        <p class="gain">✅ 好的置换算法：换出"以后最不可能用到"的页面，最大化缓存命中率</p>
+      </div>
+      <div class="block-example">
+        <h4>场景：数据库服务器的内存压力</h4>
+        <p>PostgreSQL 的 shared_buffers 设为 8GB（物理内存 16GB）。高峰期 50 个并发查询扫描不同表，总工作集 30GB——远超缓存大小。Buffer Manager 必须持续换出数据页。换出策略直接影响查询延迟：</p>
+        <p style="margin-top:6px;font-size:12px;color:var(--text-3)">📊 好的置换 → 命中率 95% → avg query 5ms &nbsp;|&nbsp; 差的置换 → 命中率 60% → avg query 80ms</p>
+      </div>
+      <div class="block-counter">
+        <h4>直觉陷阱："最近最少用"一定是最优吗？</h4>
+        <p>大部分时候是的——这是 <strong>LRU (Least Recently Used)</strong> 的基础。但如果在循环扫描一个大数组（如 <code>SELECT COUNT(*) FROM big_table</code>），刚换出的页面马上又要被访问——LRU 在这种情况下反而表现最差。扫描污染 (scan pollution) 是 LRU 的软肋。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- M2S3: Problem-First — 解法 -->
+  <section class="slide lrn-2" data-title="Problem-First · 解法: Clock 算法">
+    <aside class="lrn-sidebar">
+      <div class="lrn-toc">
+        <div class="lrn-chapter">Problem-First · 页面置换</div>
+        <ul class="lrn-tree">
+          <li class="done">痛点 — 内存耗尽</li>
+          <li class="done">探索 — FIFO 失败</li>
+          <li class="done current">解法 — Clock 算法
+            <ul><li class="done current">步骤 + 代码</li></ul>
+          </li>
+        </ul>
+      </div>
+      <div class="lrn-formula-ref">
+        <div class="lrn-formula-title">📐 缺页率公式</div>
+        $$p = \frac{\text{faults}}{\text{accesses}}$$
+      </div>
+    </aside>
+    <div class="lrn-main">
+      <div class="block-steps">
+        <div class="step">
+          <h4>每个物理页配一个访问位 (Reference Bit)</h4>
+          <p>MMU 硬件在页面被访问时自动将该位置 1。OS 可以读/清零此位。这是 Clock 算法唯一需要的硬件支持。</p>
+        </div>
+        <div class="step">
+          <h4>时钟指针循环扫描物理页</h4>
+          <p>需要换出页面时，指针从当前位置开始扫描：若 Ref=1 → 清零并跳过（给第二次机会）；若 Ref=0 → 选中换出。</p>
+        </div>
+        <div class="step">
+          <h4>两级 Clock 处理脏页</h4>
+          <p>干净页可直接丢弃（磁盘有副本）。脏页必须先写回磁盘。改进的 Clock 给脏页额外的"存活机会"——降低写回开销。</p>
+        </div>
+        <div class="step">
+          <h4>Linux 实际使用：两链表 LRU</h4>
+          <p>Active list（热页）+ Inactive list（冷页）。页面在两条链表间迁移。需要换出时从 Inactive 尾部取——这就是 Linux 的页面回收 (Page Reclaim) 机制。</p>
+        </div>
+      </div>
+      <div class="block-code">
+<span class="cm">/* Clock 页面置换算法伪代码 */</span>
+page_t* <span class="fn">clock_select_victim</span>(<span class="kw">void</span>) {
+    <span class="kw">while</span> (<span class="num">1</span>) {
+        page_t *p = &frames[clock_hand];
+        <span class="kw">if</span> (p->referenced == <span class="num">0</span>)
+            <span class="kw">return</span> p;              <span class="cm">// 找到牺牲页</span>
+        p->referenced = <span class="num">0</span>;        <span class="cm">// 清零，给第二次机会</span>
+        clock_hand = (clock_hand + <span class="num">1</span>) % NUM_FRAMES;
+    }
+}
+<span class="cm">/* 优势: O(1) 扫描，不需要时间戳链表
+   相比真正 LRU: 省掉每次访问更新链表的开销 */</span>
+      </div>
+    </div>
+  </section>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     MODEL 3: Compare-Contrast
+     主题：分页 vs 分段
+     序列：Cover → 论点A (分页) → 论点B (分段) → 合题
+     ════════════════════════════════════════════════════════════ -->
+
+  <!-- M3S1: Compare-Contrast Cover -->
+  <section class="slide lrn-cover" data-title="Compare-Contrast · 封面">
+    <div class="kicker">教学模型示例 · Compare-Contrast</div>
+    <h1>分页 vs 分段：两种内存管理方案</h1>
+    <p class="subtitle">分页（Paging）→ 分段（Segmentation）→ 多维度对比 → 合题（现代 OS 为什么选择分页）</p>
+    <div class="meta">
+      <span>⏱ 预计 35 分钟</span>
+      <span>📚 先修：虚拟内存基本概念</span>
+      <span>⭐ 难度：中等</span>
+    </div>
+  </section>
+
+  <!-- M3S2: 论点A — 分页 -->
+  <section class="slide lrn-3" data-title="Compare-Contrast · 论点A: 分页">
+    <aside class="lrn-sidebar">
+      <div class="lrn-toc">
+        <div class="lrn-chapter">Compare-Contrast · 分页 vs 分段</div>
+        <ul class="lrn-tree">
+          <li class="done current">论点 A — 分页
+            <ul><li class="done current">定义 + 公式 + 图</li><li>论点 B — 分段</li><li>合题</li></ul>
+          </li>
+        </ul>
+      </div>
+      <div class="lrn-formula-ref">
+        <div class="lrn-formula-title">📐 地址转换</div>
+        $$paddr = frame \times 4096 + offset$$
+      </div>
+    </aside>
+    <div class="lrn-main">
+      <div class="block-def" style="grid-column:1/-1">
+        <span class="term">分页 (Paging)</span>
+        <p>将物理内存和虚拟地址空间都划分为<strong>固定大小</strong>的块——页（Page，通常 4KB）。虚拟地址由页号和页内偏移组成。MMU 通过<strong>页表</strong>将虚拟页号映射到物理页框号。分页对程序<strong>完全透明</strong>。</p>
+      </div>
+      <div class="block-formula">
+        <h4>分页地址翻译</h4>
+        $$\text{Physical Address} = \text{Frame} \times 2^{12} + \text{Offset}$$
+        <div class="vars">
+          虚拟地址 32-bit → 高 20-bit = 页号，低 12-bit = 偏移（4KB 页）<br>
+          页号通过页表查得物理页框号 → 与偏移拼接得到物理地址
+        </div>
+      </div>
+      <div class="block-diagram">
+        <svg viewBox="0 0 350 130" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto">
+          <rect x="10" y="25" width="80" height="50" rx="4" fill="var(--surface-2)" stroke="var(--accent)" stroke-width="2"/>
+          <text x="50" y="47" text-anchor="middle" font-size="11" fill="var(--text-1)">虚拟地址</text>
+          <text x="50" y="62" text-anchor="middle" font-size="9" fill="var(--text-3)">页号 | 偏移</text>
+          <rect x="140" y="15" width="70" height="70" rx="4" fill="var(--lrn-badge-what)" stroke="var(--accent)" stroke-width="2"/>
+          <text x="175" y="48" text-anchor="middle" font-size="11" fill="var(--text-1)">页表</text>
+          <text x="175" y="64" text-anchor="middle" font-size="9" fill="var(--text-3)">Page Table</text>
+          <rect x="260" y="25" width="80" height="50" rx="4" fill="var(--surface-2)" stroke="var(--accent-3)" stroke-width="2"/>
+          <text x="300" y="47" text-anchor="middle" font-size="11" fill="var(--text-1)">物理地址</text>
+          <text x="300" y="62" text-anchor="middle" font-size="9" fill="var(--text-3)">帧号 | 偏移</text>
+          <line x1="90" y1="50" x2="138" y2="50" stroke="var(--text-3)" stroke-width="1.5" marker-end="url(#arr)"/>
+          <line x1="210" y1="50" x2="258" y2="50" stroke="var(--text-3)" stroke-width="1.5" marker-end="url(#arr)"/>
+          <text x="15" y="108" font-size="9" fill="var(--text-3)">固定大小 → 无外部碎片 · 页内浪费 ≤ 4095B</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- M3S3: 论点B — 分段 -->
+  <section class="slide lrn-3" data-title="Compare-Contrast · 论点B: 分段">
+    <aside class="lrn-sidebar">
+      <div class="lrn-toc">
+        <div class="lrn-chapter">Compare-Contrast · 分页 vs 分段</div>
+        <ul class="lrn-tree">
+          <li class="done">论点 A — 分页</li>
+          <li class="done current">论点 B — 分段
+            <ul><li class="done current">定义 + 公式 + 图</li><li>合题</li></ul>
+          </li>
+        </ul>
+      </div>
+      <div class="lrn-formula-ref">
+        <div class="lrn-formula-title">📐 段地址转换</div>
+        $$paddr = \text{base}[S] + offset$$
+      </div>
+    </aside>
+    <div class="lrn-main">
+      <div class="block-def" style="grid-column:1/-1">
+        <span class="term">分段 (Segmentation)</span>
+        <p>将地址空间按<strong>逻辑含义</strong>划分为可变大小的段——代码段、数据段、栈段、堆段。每个段有独立的基址 (base) 和界限 (limit)。分段对程序员<strong>可见</strong>——早期的段寄存器 (CS, DS, SS, ES) 就是分段机制的体现。</p>
+      </div>
+      <div class="block-formula">
+        <h4>分段地址翻译</h4>
+        $$\text{Physical Address} = \text{Segment Table}[S].\text{base} + \text{Offset}$$
+        <div class="vars">
+          段号 <code>S</code> 由段寄存器提供 → 查段表得基址 + 长度 → 检查 offset &lt; limit → 基址 + offset = 物理地址<br>
+          越界访问 → 段错误 (Segmentation Fault) ——这个错误名就从这里来的！
+        </div>
+      </div>
+      <div class="block-diagram">
+        <svg viewBox="0 0 350 130" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto">
+          <rect x="10" y="25" width="80" height="50" rx="4" fill="var(--surface-2)" stroke="var(--accent-2)" stroke-width="2"/>
+          <text x="50" y="47" text-anchor="middle" font-size="11" fill="var(--text-1)">虚拟地址</text>
+          <text x="50" y="62" text-anchor="middle" font-size="9" fill="var(--text-3)">段号 | 偏移</text>
+          <rect x="140" y="15" width="70" height="70" rx="4" fill="#ffedd5" stroke="var(--accent-2)" stroke-width="2"/>
+          <text x="175" y="48" text-anchor="middle" font-size="11" fill="var(--text-1)">段表</text>
+          <text x="175" y="64" text-anchor="middle" font-size="9" fill="var(--text-3)">Seg Table</text>
+          <rect x="260" y="25" width="80" height="50" rx="4" fill="var(--surface-2)" stroke="var(--accent-3)" stroke-width="2"/>
+          <text x="300" y="47" text-anchor="middle" font-size="11" fill="var(--text-1)">物理地址</text>
+          <text x="300" y="62" text-anchor="middle" font-size="9" fill="var(--text-3)">基址+偏移</text>
+          <line x1="90" y1="50" x2="138" y2="50" stroke="var(--text-3)" stroke-width="1.5" marker-end="url(#arr)"/>
+          <line x1="210" y1="50" x2="258" y2="50" stroke="var(--text-3)" stroke-width="1.5" marker-end="url(#arr)"/>
+          <text x="20" y="108" font-size="9" fill="var(--text-3)">可变大小 → 有外部碎片 · 段内无浪费 · 越界检查</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- M3S4: Compare-Contrast — 合题 -->
+  <section class="slide lrn-2" data-title="Compare-Contrast · 合题: 为什么选分页">
+    <aside class="lrn-sidebar">
+      <div class="lrn-toc">
+        <div class="lrn-chapter">Compare-Contrast · 分页 vs 分段</div>
+        <ul class="lrn-tree">
+          <li class="done">论点 A — 分页</li>
+          <li class="done">论点 B — 分段</li>
+          <li class="done current">合题 — 对比 + 选择
+            <ul><li class="done current">对比表 + 要点</li></ul>
+          </li>
+        </ul>
+      </div>
+    </aside>
+    <div class="lrn-main">
+      <div class="block-compare">
+        <h4 style="margin-bottom:10px">分页 vs 分段：六维度对比</h4>
+        <table>
+          <tr><th>维度</th><th>分页 (Paging)</th><th>分段 (Segmentation)</th></tr>
+          <tr><td>划分依据</td><td>固定大小（4KB）</td><td>逻辑含义（代码/数据/栈）</td></tr>
+          <tr><td>外部碎片</td><td class="win">无</td><td>有（需紧凑化）</td></tr>
+          <tr><td>内部碎片</td><td>每页平均浪费 2KB</td><td class="win">无（精确分配）</td></tr>
+          <tr><td>共享粒度</td><td class="win">页级（CoW, mmap）</td><td>段级</td></tr>
+          <tr><td>保护机制</td><td>页级 (R/W/X bits)</td><td class="win">段级（天然权限边界）</td></tr>
+          <tr><td>程序透明性</td><td class="win">完全透明</td><td>程序员需管理段</td></tr>
+          <tr><td>磁盘 I/O 友好</td><td class="win">固定页大小 = 批量 I/O</td><td>段大小不固定，I/O 复杂</td></tr>
+          <tr><td>现代 OS 采用</td><td class="win">Linux/Windows/macOS 主方案</td><td>仅保留兼容模式</td></tr>
+        </table>
+      </div>
+      <div class="block-callout">
+        <h4>💡 为什么现代 OS 选择分页？</h4>
+        <p>分页的<strong>无外部碎片</strong>特性在长时间运行的服务器上至关重要——分段运行数天后碎片化严重，需要 Stop-The-World 紧凑化。分页的固定大小也使磁盘换入换出高度优化：一个 I/O 操作正好一页。同时 Copy-on-Write、mmap 共享、NUMA 迁移等机制都建立在页粒度的基础上。</p>
+        <p style="margin-top:8px;font-size:12px;color:var(--text-3)">🏛️ 实际上 Intel x86 使用了<strong>段页式</strong>——段机制用于兼容性（所有段基址 = 0），页机制做真正的内存管理。</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+<script src="../../assets/runtime.js"></script>
+</body>
+</html>

@@ -1,0 +1,223 @@
+/* ══════════════════════════════════════════════
+   html-ppt-learning / base.css
+   Token 系统 + Slide 布局 + Block 基类 + 侧栏
+   ══════════════════════════════════════════════ */
+
+/* ─── CSS Variables (themes override these) ─── */
+:root {
+  /* 背景 */
+  --bg: #fefdfb;
+  --bg-soft: #f5f2eb;
+  --surface: #ffffff;
+  --surface-2: #f9f7f1;
+
+  /* 边框 */
+  --border: rgba(40,35,25,.10);
+  --border-strong: rgba(40,35,25,.18);
+
+  /* 文字 */
+  --text-1: #1a1713;
+  --text-2: #4a4540;
+  --text-3: #8a8478;
+
+  /* 强调色 */
+  --accent: #2563eb;
+  --accent-2: #ea580c;
+  --accent-3: #16a34a;
+
+  /* 教学色彩编码 */
+  --lrn-what: #2563eb;       /* 蓝 — 定义/概念 */
+  --lrn-why: #ea580c;        /* 橙 — 动机/场景 */
+  --lrn-how: #16a34a;        /* 绿 — 方法/步骤 */
+  --lrn-problem: #dc2626;    /* 红 — 问题/痛点 */
+  --lrn-solution: #16a34a;   /* 绿 — 解决方案 */
+  --lrn-warn: #f59e0b;       /* 黄 — 注意事项 */
+  --lrn-tip: #8b5cf6;        /* 紫 — Pro Tip */
+  --lrn-badge-what: #dbeafe;
+  --lrn-badge-why: #ffedd5;
+  --lrn-badge-how: #dcfce7;
+
+  /* 圆角 & 阴影 */
+  --radius: 10px;
+  --radius-lg: 16px;
+  --shadow: 0 2px 12px rgba(0,0,0,.06);
+
+  /* 排版 */
+  --font-body: 'Inter','Noto Sans SC',sans-serif;
+  --font-mono: 'JetBrains Mono','Fira Code',monospace;
+  --font-size-sm: 13px;
+  --font-size-base: 15px;
+  --font-size-lg: 18px;
+  --font-size-h3: 22px;
+  --font-size-h2: 30px;
+  --font-size-h1: 40px;
+  --line-height: 1.65;
+}
+
+/* ─── Reset ─── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-body);font-size:var(--font-size-base);line-height:var(--line-height);color:var(--text-1);background:var(--bg);-webkit-font-smoothing:antialiased}
+
+/* ─── Deck container (A4-ish 比例, 屏幕居中) ─── */
+.deck{max-width:960px;margin:0 auto;padding:0}
+@media print{.deck{max-width:100%}}
+
+/* ─── Slide 基础 ─── */
+.slide{
+  display:none;
+  min-height:100vh;
+  padding:40px 48px;
+  background:var(--bg);
+  position:relative;
+  overflow:hidden;
+}
+.slide.is-active{display:grid}
+@media print{
+  .slide{display:grid !important;min-height:auto;page-break-after:always;padding:32px 40px}
+}
+
+/* ─── 信息密度栅格 ─── */
+.slide.lrn-2{grid-template-columns:220px 1fr;gap:36px;align-content:start}
+.slide.lrn-3{grid-template-columns:220px 1fr;gap:36px;align-content:start}
+.slide.lrn-3 .lrn-main{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:20px}
+.slide.lrn-3 .lrn-main > :first-child{grid-column:1 / -1}
+.slide.lrn-4{grid-template-columns:220px 1fr;gap:36px;align-content:start}
+.slide.lrn-4 .lrn-main{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:16px}
+
+/* 无侧栏的 slide（封面/复习页） */
+.slide.lrn-full{grid-template-columns:1fr;padding:48px 56px;align-content:center}
+
+/* ─── 侧栏 ─── */
+.lrn-sidebar{
+  border-right:1px solid var(--border);
+  padding-right:24px;
+  font-size:var(--font-size-sm);
+  display:flex;flex-direction:column;gap:20px;
+  overflow-y:auto;
+}
+.lrn-chapter{
+  font-weight:700;font-size:13px;color:var(--accent);
+  letter-spacing:.04em;margin-bottom:12px;
+}
+.lrn-tree{list-style:none;padding:0;margin:0}
+.lrn-tree ul{list-style:none;padding:0 0 0 14px;margin:4px 0 8px}
+.lrn-tree li{
+  padding:4px 0;color:var(--text-3);border-bottom:1px dashed var(--border);
+  transition:color .15s;
+}
+.lrn-tree li.done{color:var(--text-2)}
+.lrn-tree li.current{color:var(--text-1);font-weight:700}
+.lrn-tree li.current::before{content:"▸ ";color:var(--accent-2)}
+
+.lrn-formula-ref{
+  margin-top:auto;padding:10px 12px;background:var(--surface-2);
+  border-radius:var(--radius);font-size:12px;
+  border-left:3px solid var(--accent);
+}
+.lrn-formula-title{font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--text-3);margin-bottom:6px}
+.lrn-formula-ref .katex{font-size:13px}
+
+/* ─── 主内容区 ─── */
+.lrn-main{min-width:0}
+
+/* ─── Block 基类 ─── */
+[class^="block-"]{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:18px 20px;
+  box-shadow:var(--shadow);
+}
+[class^="block-"] h4{font-size:var(--font-size-base);font-weight:700;margin-bottom:6px;color:var(--text-1)}
+[class^="block-"] p{font-size:var(--font-size-sm);color:var(--text-2);line-height:1.6;margin:0}
+
+/* ─── 12 Block 具体样式 ─── */
+
+/* 1. 定义 */
+.block-def{border-left:4px solid var(--lrn-what);background:var(--surface)}
+.block-def h4{color:var(--lrn-what)}
+.block-def .term{font-weight:700;color:var(--text-1);font-size:var(--font-size-lg);margin-bottom:4px;display:block}
+
+/* 2. 公式 */
+.block-formula{border-left:4px solid var(--lrn-what);background:var(--surface-2);font-family:var(--font-mono)}
+.block-formula .katex{font-size:1.15em}
+.block-formula .vars{margin-top:10px;font-size:var(--font-size-sm);color:var(--text-3);line-height:1.8}
+
+/* 3. 动机 */
+.block-why{border-left:4px solid var(--lrn-why);background:var(--surface)}
+.block-why h4{color:var(--lrn-why)}
+.block-why .pain{color:var(--lrn-problem);font-weight:600;font-size:13px}
+.block-why .gain{color:var(--lrn-solution);font-weight:600;font-size:13px}
+
+/* 4. 例子 */
+.block-example{border:1px dashed var(--accent);background:var(--surface-2)}
+.block-example h4{color:var(--accent)}
+
+/* 5. 反例 */
+.block-counter{border-left:4px solid var(--lrn-problem);background:#fef2f2}
+.block-counter h4{color:var(--lrn-problem)}
+.block-counter::before{content:"⚠️ 常见错误";display:block;font-size:11px;font-weight:700;color:var(--lrn-problem);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+
+/* 6. 代码 */
+.block-code{background:#1e1e2e;color:#cdd6f4;border:none;padding:16px 18px;font-family:var(--font-mono);font-size:13px;line-height:1.7;overflow-x:auto}
+.block-code .kw{color:#cba6f7}
+.block-code .fn{color:#89b4fa}
+.block-code .str{color:#a6e3a1}
+.block-code .cm{color:#6c7086;font-style:italic}
+.block-code .num{color:#fab387}
+
+/* 7. 图示 */
+.block-diagram{background:var(--surface);padding:12px;text-align:center}
+.block-diagram svg{max-width:100%;height:auto}
+
+/* 8. 对比 */
+.block-compare{overflow-x:auto}
+.block-compare table{width:100%;border-collapse:collapse;font-size:var(--font-size-sm)}
+.block-compare th{background:var(--surface-2);font-weight:700;text-align:left;padding:8px 10px;border-bottom:2px solid var(--border-strong);font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--text-2)}
+.block-compare td{padding:8px 10px;border-bottom:1px solid var(--border);color:var(--text-2)}
+.block-compare tr:last-child td{border-bottom:none}
+.block-compare .win{color:var(--lrn-solution);font-weight:600}
+
+/* 9. 步骤 */
+.block-steps{counter-reset:step}
+.block-steps .step{counter-increment:step;padding:12px 0 12px 40px;position:relative;border-bottom:1px solid var(--border)}
+.block-steps .step:last-child{border-bottom:none}
+.block-steps .step::before{content:counter(step);position:absolute;left:0;top:12px;width:26px;height:26px;background:var(--lrn-how);color:#fff;border-radius:50%;text-align:center;line-height:26px;font-size:13px;font-weight:700}
+.block-steps .step h4{color:var(--text-1);margin-bottom:2px}
+
+/* 10. 要点 */
+.block-callout{border-left:4px solid var(--lrn-tip);background:var(--surface-2);padding:14px 18px}
+.block-callout::before{content:"💡 要点";display:block;font-size:11px;font-weight:700;color:var(--lrn-tip);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+
+/* 11. 自测 */
+.block-check .check-q{cursor:pointer;padding:12px 16px;background:var(--surface-2);border-radius:var(--radius);font-weight:600;color:var(--text-1);transition:background .15s}
+.block-check .check-q:hover{background:var(--border)}
+.block-check .check-a{display:none;padding:14px 16px;margin-top:8px;background:var(--surface);border-left:3px solid var(--lrn-solution);border-radius:0 var(--radius) var(--radius) 0;font-size:var(--font-size-sm);color:var(--text-2)}
+.block-check .check-q.open + .check-a{display:block}
+
+/* 12. 总结 */
+.block-summary{overflow-x:auto}
+.block-summary table{width:100%;border-collapse:collapse;font-size:var(--font-size-sm)}
+.block-summary th{background:var(--text-1);color:var(--bg);font-weight:700;text-align:left;padding:8px 10px;font-size:12px}
+.block-summary td{padding:8px 10px;border-bottom:1px solid var(--border)}
+.block-summary tr:nth-child(even){background:var(--surface-2)}
+
+/* ─── 封面 ─── */
+.lrn-cover{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:24px;min-height:100vh;padding:56px 64px}
+.lrn-cover .kicker{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--accent)}
+.lrn-cover h1{font-size:52px;line-height:1.12;font-weight:800;letter-spacing:-.02em;color:var(--text-1);max-width:80%}
+.lrn-cover .subtitle{font-size:var(--font-size-lg);color:var(--text-2);max-width:60ch;line-height:1.7}
+.lrn-cover .meta{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px}
+.lrn-cover .meta span{font-size:12px;padding:4px 12px;border-radius:20px;background:var(--surface-2);color:var(--text-2);font-weight:600}
+
+/* ─── 复习页 ─── */
+.lrn-review{padding:40px 56px;display:flex;flex-direction:column;gap:24px}
+.lrn-review h2{font-size:var(--font-size-h2);font-weight:800;color:var(--text-1);margin-bottom:8px}
+
+/* ─── 打印 ─── */
+@media print{
+  body{font-size:12px}
+  .slide{min-height:auto;page-break-after:always;padding:24px 32px}
+  .lrn-sidebar{font-size:10px}
+  .block-code{white-space:pre-wrap;word-break:break-all}
+}

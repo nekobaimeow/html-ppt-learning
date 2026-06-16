@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>全部 12 个 Block 展示 · OS 内存管理</title>
+<link rel="stylesheet" href="../../assets/base.css">
+<link rel="stylesheet" href="../../assets/themes/learning-light.css" id="theme-link">
+<!-- KaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<style>
+  /* subtle block-number badge for showcase mode */
+  .showcase-badge {
+    position: absolute; top: 6px; right: 10px;
+    font-size: 10px; font-weight: 700; letter-spacing: .08em;
+    color: var(--text-3); opacity: .5;
+  }
+  [class^="block-"] { position: relative; }
+</style>
+</head>
+<body class="lrn-deck" data-themes="learning-light,learning-dark,learning-print,learning-colorful">
+<div class="deck">
+
+  <!-- ═══ 1. COVER ═══ -->
+  <section class="slide lrn-cover is-active">
+    <div class="kicker">Block 目录</div>
+    <h1>12 个学习内容块</h1>
+    <p class="subtitle">操作系统内存管理主题 · 展示每种 block 的标准用法和 HTML 结构</p>
+    <div class="meta">
+      <span>📦 12 blocks</span>
+      <span>📚 主题：虚拟内存 / 页面置换 / TLB</span>
+      <span>🔍 参考用展示页</span>
+    </div>
+  </section>
+
+  <!-- ═══ 2. 定义 + 公式 + 要点 (blocks 1,2,10) ═══ -->
+  <section class="slide lrn-3">
+    <aside class="lrn-sidebar">
+      <div class="lrn-toc">
+        <div class="lrn-chapter">Block 1-3 · 概念引入</div>
+        <ul class="lrn-tree">
+          <li class="done current">block-def
+            <ul><li>block-formula</li><li>block-why</li></ul>
+          </li>
+          <li>block-example</li>
+          <li>block-counter</li>
+          <li>block-code</li>
+        </ul>
+      </div>
+      <div class="lrn-formula-ref">
+        <div class="lrn-formula-title">📐 核心公式</div>
+        $$EAT = (1-p)T_{mem} + p T_{disk}$$
+      </div>
+    </aside>
+    <div class="lrn-main">
+      <!-- BLOCK 1: 定义 -->
+      <div class="block-def" style="grid-column:1/-1">
+        <span class="showcase-badge">block-def</span>
+        <span class="term">虚拟内存 (Virtual Memory)</span>
+        <p>操作系统为每个进程提供的一个<strong>独立的、连续的</strong>地址空间抽象。每个进程以为自己独占全部内存，但实际上物理内存由 OS 在多个进程之间分时复用。虚拟地址到物理地址的翻译由 <strong>MMU (Memory Management Unit)</strong> 硬件完成。</p>
+      </div>
+      <!-- BLOCK 2: 公式 -->
+      <div class="block-formula">
+        <span class="showcase-badge">block-formula</span>
+        <h4>有效访问时间 (EAT)</h4>
+        $$EAT = (1-p) \times T_{\text{mem}} + p \times T_{\text{disk}}$$
+        <div class="vars">
+          <code>p</code> = 缺页率（Page Fault Rate）&nbsp;|&nbsp;
+          <code>T<sub>mem</sub></code> = 内存访问时间 (~100ns) &nbsp;|&nbsp;
+          <code>T<sub>disk</sub></code> = 磁盘访问时间 (~10ms)
+        </div>
+      </div>
+      <!-- BLOCK 10: 要点 -->
+      <div class="block-callout">
+        <span class="showcase-badge">block-callout</span>
+        <p>缺页率从 <strong>0.1% → 0.01%</strong>，EAT 从 10μs → 1μs，差距达 <strong>10 倍</strong>。磁盘比内存慢 100,000 倍——即便缺页率极低，性能代价仍然巨大。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 3. 动机 + 例子 + 反例 + 代码 (blocks 3,4,5,6) ═══ -->
+  <section class="slide lrn-4">
+    <aside class="lrn-sidebar">
+      <div class="lrn-toc">
+        <div class="lrn-chapter">Block 3-6 · 动机与实例</div>
+        <ul class="lrn-tree">
+          <li class="done">概念引入</li>
+          <li class="done current">block-why
+            <ul><li>block-example</li><li>block-counter</li><li>block-code</li></ul>
+          </li>
+          <li>block-diagram</li>
+        </ul>
+      </div>
+    </aside>
+    <div class="lrn-main">
+      <!-- BLOCK 3: 动机 -->
+      <div class="block-why">
+        <span class="showcase-badge">block-why</span>
+        <h4>没有虚拟内存会怎样？</h4>
+        <p class="pain">❌ 进程 A 写入越界 → 覆盖进程 B 的数据 → 整个系统崩溃</p>
+        <p class="pain">❌ 程序必须完整加载到 RAM 才能运行 — 8GB 程序在 4GB 机器上无法启动</p>
+        <p class="pain">❌ 物理内存碎片化 — 即使总空闲够用，找不到连续的大块</p>
+        <p class="gain">✅ 虚拟内存提供进程间隔离 — 每个进程看到独立的地址空间</p>
+        <p class="gain">✅ 按需换页 — 只加载当前需要的页面，其他留在磁盘</p>
+      </div>
+      <!-- BLOCK 4: 例子 -->
+      <div class="block-example">
+        <span class="showcase-badge">block-example</span>
+        <h4>具体案例：3A 游戏加载</h4>
+        <p>某开放世界游戏需要 <strong>60GB</strong> 纹理与模型数据，但玩家机器只有 <strong>16GB</strong> 物理内存。OS 通过虚拟内存让游戏进程"看到" 60GB 地址空间——实际只将玩家当前位置附近的页面（约 2-4GB）映射到物理内存。玩家走到新区域 → 触发缺页 → OS 从 SSD 读入新纹理，换出旧数据。</p>
+      </div>
+      <!-- BLOCK 5: 反例 -->
+      <div class="block-counter">
+        <span class="showcase-badge">block-counter</span>
+        <h4>Belady 异常：更多帧 ≠ 更少缺页</h4>
+        <p>直觉上，给进程分配更多物理帧应该减少缺页次数。但 <strong>FIFO 页面置换算法</strong>存在反直觉的 Belady 异常：分配 4 帧时的缺页数反而大于 3 帧。</p>
+        <p style="font-size:12px;color:var(--text-3);margin-top:6px">引用串 1,2,3,4,1,2,5,1,2,3,4,5 → 3 帧 9 次缺页 vs 4 帧 10 次缺页</p>
+      </div>
+      <!-- BLOCK 6: 代码 -->
+      <div class="block-code">
+        <span class="showcase-badge" style="color:#6c7086">block-code</span>
+<span class="cm">/* Linux 缺页中断处理核心逻辑 (简化) */</span>
+<span class="kw">int</span> <span class="fn">do_page_fault</span>(<span class="kw">struct</span> vm_area_struct *vma,
+                     <span class="kw">unsigned long</span> address) {
+    <span class="kw">struct</span> page *new_page;
+
+    <span class="kw">if</span> (!vma)
+        <span class="kw">goto</span> bad_area;              <span class="cm">// 地址不合法</span>
+
+    new_page = <span class="fn">alloc_page</span>(GFP_HIGHUSER); <span class="cm">// ① 分配物理页</span>
+    <span class="kw">if</span> (!new_page)
+        <span class="kw">goto</span> oom;                    <span class="cm">// 内存耗尽</span>
+
+    <span class="fn">read_from_swap</span>(new_page,        <span class="cm">// ② 从磁盘读</span>
+                   vma->vm_file, offset);
+    <span class="fn">install_pte</span>(vma->vm_mm,          <span class="cm">// ③ 建立映射</span>
+                address, new_page);
+    <span class="kw">return</span> <span class="num">0</span>;
+}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 4. 图示 + 对比 + 步骤 + 总结 (blocks 7,8,9,12) ═══ -->
+  <section class="slide lrn-4">
+    <aside class="lrn-sidebar">
+      <div class="lrn-toc">
+        <div class="lrn-chapter">Block 7-12 · 流程与对比</div>
+        <ul class="lrn-tree">
+          <li class="done">动机与实例</li>
+          <li class="done current">block-diagram
+            <ul><li>block-compare</li><li>block-steps</li><li>block-summary</li></ul>
+          </li>
+          <li>block-check</li>
+        </ul>
+      </div>
+    </aside>
+    <div class="lrn-main">
+      <!-- BLOCK 7: 图示 -->
+      <div class="block-diagram">
+        <span class="showcase-badge">block-diagram</span>
+        <svg viewBox="0 0 380 160" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto">
+          <defs>
+            <marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+              <path d="M0,0 L8,3 L0,6 Z" fill="var(--text-3)"/>
+            </marker>
+          </defs>
+          <!-- CPU -->
+          <rect x="10" y="45" width="80" height="36" rx="6" fill="var(--surface-2)" stroke="var(--accent)" stroke-width="2"/>
+          <text x="50" y="67" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-1)">CPU</text>
+          <!-- MMU -->
+          <rect x="140" y="45" width="80" height="36" rx="6" fill="var(--surface-2)" stroke="var(--accent-2)" stroke-width="2"/>
+          <text x="180" y="67" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-1)">MMU</text>
+          <!-- RAM -->
+          <rect x="270" y="45" width="80" height="36" rx="6" fill="var(--surface-2)" stroke="var(--accent-3)" stroke-width="2"/>
+          <text x="310" y="67" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-1)">RAM</text>
+          <!-- Arrows -->
+          <line x1="90" y1="63" x2="138" y2="63" stroke="var(--text-3)" stroke-width="1.5" marker-end="url(#arrow)"/>
+          <line x1="220" y1="63" x2="268" y2="63" stroke="var(--text-3)" stroke-width="1.5" marker-end="url(#arrow)"/>
+          <!-- Labels -->
+          <text x="114" y="40" text-anchor="middle" font-size="9" fill="var(--text-3)">虚拟地址</text>
+          <text x="244" y="40" text-anchor="middle" font-size="9" fill="var(--text-3)">物理地址</text>
+          <!-- TLB box -->
+          <rect x="145" y="100" width="70" height="24" rx="4" fill="var(--lrn-badge-what)" stroke="var(--accent)" stroke-width="1"/>
+          <text x="180" y="116" text-anchor="middle" font-size="9" fill="var(--accent)">TLB 缓存</text>
+          <line x1="180" y1="81" x2="180" y2="98" stroke="var(--accent)" stroke-width="1" stroke-dasharray="3,2"/>
+          <!-- Disk -->
+          <rect x="270" y="100" width="80" height="24" rx="4" fill="#fef2f2" stroke="var(--lrn-problem)" stroke-width="1"/>
+          <text x="310" y="116" text-anchor="middle" font-size="9" fill="var(--lrn-problem)">磁盘 (慢 10⁵x)</text>
+          <line x1="310" y1="81" x2="310" y2="98" stroke="var(--lrn-problem)" stroke-width="1" stroke-dasharray="3,2"/>
+        </svg>
+      </div>
+      <!-- BLOCK 8: 对比 -->
+      <div class="block-compare">
+        <span class="showcase-badge">block-compare</span>
+        <table>
+          <tr><th>维度</th><th>分页 (Paging)</th><th>分段 (Segmentation)</th></tr>
+          <tr><td>划分单位</td><td>固定大小 4KB</td><td>可变大小逻辑段</td></tr>
+          <tr><td>外部碎片</td><td class="win">无</td><td>存在</td></tr>
+          <tr><td>内部碎片</td><td>最后一页有</td><td class="win">无</td></tr>
+          <tr><td>程序可见性</td><td>对程序透明</td><td class="win">段寄存器可编程</td></tr>
+        </table>
+      </div>
+      <!-- BLOCK 9: 步骤 -->
+      <div class="block-steps">
+        <span class="showcase-badge">block-steps</span>
+        <div class="step">
+          <h4>CPU 发出虚拟地址</h4>
+          <p><code>mov eax, [0x7fff1234]</code> — 进程以虚拟地址访问</p>
+        </div>
+        <div class="step">
+          <h4>MMU 查询 TLB</h4>
+          <p>TLB 命中 → 直接得到物理地址（~1 cycle）</p>
+        </div>
+        <div class="step">
+          <h4>TLB miss → 遍历页表</h4>
+          <p>逐级查多级页表（x86-64: 4级），获取物理页框号</p>
+        </div>
+        <div class="step">
+          <h4>缺页中断</h4>
+          <p>页面不在内存 → OS 从磁盘换入 → 更新页表 → 重试</p>
+        </div>
+      </div>
+      <!-- BLOCK 12: 总结 -->
+      <div class="block-summary">
+        <span class="showcase-badge">block-summary</span>
+        <table>
+          <tr><th>概念</th><th>定义</th><th>关键点</th></tr>
+          <tr><td>虚拟内存</td><td>进程地址空间抽象</td><td>程序 &gt; RAM 也能运行</td></tr>
+          <tr><td>EAT</td><td>平均内存访问时间</td><td>$$(1-p)T_{mem}+pT_{disk}$$</td></tr>
+          <tr><td>TLB</td><td>地址翻译缓存</td><td>命中率 &gt; 99%</td></tr>
+          <tr><td>Belady</td><td>FIFO 反常行为</td><td>更多帧 ≠ 更少缺页</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 5. 自测 REVIEW (block 11) ═══ -->
+  <section class="slide lrn-full lrn-review">
+    <h2>📋 自测检验</h2>
+    <!-- BLOCK 11: 自测 × 3 -->
+    <div class="block-check">
+      <span class="showcase-badge" style="position:relative;display:inline-block;margin-bottom:4px">block-check</span>
+      <div class="check-q" onclick="this.classList.toggle('open')">
+        Q1: 缺页率 p = 0.0001% 时，EAT 大约是多少？（T_mem=100ns, T_disk=10ms）
+      </div>
+      <div class="check-a">
+        $$EAT = (1 - 10^{-6}) \times 100\text{ns} + 10^{-6} \times 10\text{ms} \approx 100\text{ns} + 10\text{ns} = 110\text{ns}$$
+        仅比纯内存访问慢 10%——缺页率极低时，虚拟内存的性能损失可以忽略不计。
+      </div>
+    </div>
+    <div class="block-check">
+      <div class="check-q" onclick="this.classList.toggle('open')">
+        Q2: 为什么几乎所有 OS 都用分页而不是分段？
+      </div>
+      <div class="check-a">
+        ① 分页无外部碎片——物理内存利用率更高；② 页大小固定，换入换出效率高（磁盘 I/O 以页为单位）；③ 分页对程序透明，不需要程序员手动管理段表。现代 x86 保留了段机制（兼容性），但 Linux 将其扁平化——所有段的基址都是 0。
+      </div>
+    </div>
+    <div class="block-check">
+      <div class="check-q" onclick="this.classList.toggle('open')">
+        Q3: TLB 命中率为什么能到 99% 以上？
+      </div>
+      <div class="check-a">
+        程序的<strong>时间局部性</strong>和<strong>空间局部性</strong>原理：① 刚访问过的地址很可能再次访问（循环、频繁使用的变量）；② 访问地址 X 后很可能接着访问 X+1（数组遍历、顺序执行）。TLB 利用这两个特性，用较小的硬件缓存（通常 64-1024 项）覆盖绝大多数地址翻译。
+      </div>
+    </div>
+  </section>
+
+</div>
+<script src="../../assets/runtime.js"></script>
+</body>
+</html>

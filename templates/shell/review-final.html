@@ -1,0 +1,175 @@
+<!--
+  review-final.html — 期末/章末复习 slide HTML 片段
+  直接粘贴到 deck.html 的 <div class="deck"> 末尾。
+  包含：全知识点总结表 + 公式墙 + 自测 FAQ 卡片。
+  使用 block-summary + block-formula + block-check 三种 block。
+-->
+<section class="slide lrn-full lrn-review is-active" data-title="章节复习">
+
+  <!-- ===== 页面标题 ===== -->
+  <h2 style="margin-bottom:8px">📋 本章复习</h2>
+  <p style="font-size:13px;color:var(--text-3);margin-bottom:24px">
+    以下汇总了本章所有核心概念、关键公式和常见考点。建议在学完全部内容后逐项检验。
+  </p>
+
+  <!-- ===== 1. 全知识点总结表 (block-summary) ===== -->
+  <div class="block-summary">
+    <h4 style="margin-bottom:10px">一、核心概念速查表</h4>
+    <table>
+      <thead>
+        <tr>
+          <th>概念</th>
+          <th>一句话定义</th>
+          <th>关键公式 / 要点</th>
+          <th>难度</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>虚拟内存</strong></td>
+          <td>进程地址空间的抽象，由 MMU 负责虚实转换</td>
+          <td>程序 &gt; RAM 也能运行</td>
+          <td>⭐⭐</td>
+        </tr>
+        <tr>
+          <td><strong>有效访问时间</strong></td>
+          <td>考虑缺页代价后的平均内存访问时间</td>
+          <td>$$EAT=(1-p)T_{mem}+pT_{disk}$$</td>
+          <td>⭐⭐</td>
+        </tr>
+        <tr>
+          <td><strong>缺页率 p</strong></td>
+          <td>内存访问中触发缺页中断的比例</td>
+          <td>$$p=\frac{\text{faults}}{\text{accesses}}$$</td>
+          <td>⭐</td>
+        </tr>
+        <tr>
+          <td><strong>TLB</strong></td>
+          <td>页表缓存 (Translation Lookaside Buffer)</td>
+          <td>命中率 &gt; 99%，查表 ~1 cycle</td>
+          <td>⭐⭐</td>
+        </tr>
+        <tr>
+          <td><strong>Belady 异常</strong></td>
+          <td>FIFO 置换算法的反常行为</td>
+          <td>分配更多帧反而增加缺页</td>
+          <td>⭐⭐⭐</td>
+        </tr>
+        <tr>
+          <td><strong>页面置换算法</strong></td>
+          <td>内存满时选择换出哪个页面的策略</td>
+          <td>FIFO / LRU / Clock</td>
+          <td>⭐⭐</td>
+        </tr>
+        <tr>
+          <td><strong>多级页表</strong></td>
+          <td>用层级结构减少页表对内存的占用</td>
+          <td>x86-64: 4 级，每级 512 项</td>
+          <td>⭐⭐⭐</td>
+        </tr>
+        <tr>
+          <td><strong>Copy-on-Write</strong></td>
+          <td>fork() 时父子进程共享页，写时复制</td>
+          <td>节省内存，延迟拷贝</td>
+          <td>⭐⭐</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ===== 2. 公式墙 (block-formula × 3) ===== -->
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:24px">
+    <div class="block-formula">
+      <h4>有效访问时间</h4>
+      $$EAT = (1-p) \times T_{\text{mem}} + p \times T_{\text{disk}}$$
+      <div class="vars">
+        <code>p</code> = 缺页率<br>
+        <code>T<sub>mem</sub></code> ~ 100ns<br>
+        <code>T<sub>disk</sub></code> ~ 10ms
+      </div>
+    </div>
+    <div class="block-formula">
+      <h4>TLB 加速下的 EAT</h4>
+      $$\begin{aligned}
+EAT &= h(T_{\text{TLB}}+T_{\text{mem}}) \\
+    &+ (1-h)(T_{\text{TLB}}+kT_{\text{mem}})
+\end{aligned}$$
+      <div class="vars">
+        <code>h</code> = TLB 命中率<br>
+        <code>k</code> = 页表级数
+      </div>
+    </div>
+    <div class="block-formula">
+      <h4>页表大小估算</h4>
+      $$\text{PT Size} = \frac{\text{VA Space}}{\text{Page Size}} \times \text{PTE Size}$$
+      <div class="vars">
+        e.g. 48-bit VA, 4KB page, 8B PTE<br>
+        → 256TB / 4KB × 8B = 512GB
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 3. 自测 FAQ (block-check × 4) ===== -->
+  <div style="margin-top:24px">
+    <h3 style="font-size:16px;font-weight:800;color:var(--text-1);margin-bottom:12px">
+      ✍️ 自测检验（点击问题查看答案）
+    </h3>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <!-- Q1 -->
+      <div class="block-check">
+        <div class="check-q" onclick="this.classList.toggle('open')">
+          Q1: 缺页率 p = 0.0001%，EAT 是多少？
+        </div>
+        <div class="check-a">
+          $$EAT \approx 100\text{ns} + 10^{-6}\times 10\text{ms} = 110\text{ns}$$
+          几乎无影响——缺页率极低时，虚拟内存的性能代价可忽略。
+        </div>
+      </div>
+      <!-- Q2 -->
+      <div class="block-check">
+        <div class="check-q" onclick="this.classList.toggle('open')">
+          Q2: 为什么 LRU 实际很少直接实现？
+        </div>
+        <div class="check-a">
+          真正的 LRU 每次内存访问都需更新链表（开销大），且需硬件时间戳支持。OS 通常用 Clock 算法近似：1 个访问位 + 时钟指针扫描。
+        </div>
+      </div>
+      <!-- Q3 -->
+      <div class="block-check">
+        <div class="check-q" onclick="this.classList.toggle('open')">
+          Q3: TLB shootdown 是什么？
+        </div>
+        <div class="check-a">
+          多核 CPU 中，一个核修改了页表后必须通知其他核刷新 TLB。Linux 通过 IPI (核间中断) 实现，又称 TLB flush。
+        </div>
+      </div>
+      <!-- Q4 -->
+      <div class="block-check">
+        <div class="check-q" onclick="this.classList.toggle('open')">
+          Q4: 什么场景下 Belady 异常会发生？
+        </div>
+        <div class="check-a">
+          仅在使用 FIFO 置换算法时可能出现。LRU 和 Clock 都属于栈算法 (stack algorithm)，不会出现 Belady 异常。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 4. 下一步提示 ===== -->
+  <div style="
+    margin-top: 28px;
+    padding: 14px 20px;
+    background: var(--surface-2);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius);
+    font-size: 13px;
+    color: var(--text-2);
+  ">
+    🚀 <strong>下一步建议</strong>：
+    如果你能正确回答以上所有自测问题，可以进入
+    <em style="color:var(--accent);font-style:normal">第 3 章：文件系统</em>
+    学习磁盘 I/O 与缓冲区管理。这两个主题在缺页中断的数据路径上紧密相连。
+  </div>
+
+</section>

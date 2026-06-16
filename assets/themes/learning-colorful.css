@@ -1,0 +1,23 @@
+/* learning-colorful — 白底 + 8 色块区分 block 类型（教学投影/直播） */
+:root{
+  --bg:#ffffff;--bg-soft:#f8fafc;--surface:#ffffff;--surface-2:#f1f5f9;
+  --border:rgba(0,0,0,.08);--border-strong:rgba(0,0,0,.16);
+  --text-1:#0f172a;--text-2:#334155;--text-3:#64748b;
+  --accent:#6366f1;--accent-2:#f43e5c;--accent-3:#10b981;
+  --lrn-what:#3b82f6;--lrn-why:#f97316;--lrn-how:#22c55e;
+  --lrn-problem:#ef4444;--lrn-solution:#22c55e;--lrn-warn:#eab308;--lrn-tip:#8b5cf6;
+  --lrn-badge-what:#dbeafe;--lrn-badge-why:#ffedd5;--lrn-badge-how:#dcfce7;
+  --radius:14px;--radius-lg:20px;
+  --shadow:0 4px 16px rgba(0,0,0,.05);
+  --font-body:'Inter','Noto Sans SC',sans-serif;
+  --font-mono:'JetBrains Mono','Fira Code',monospace;
+  --font-size-sm:14px;--font-size-base:17px;--font-size-lg:20px;
+  --font-size-h3:26px;--font-size-h2:36px;--font-size-h1:48px;
+}
+.slide{padding:48px 56px}
+[class^="block-"]{box-shadow:0 2px 16px rgba(0,0,0,.06)}
+.block-def{border-left-width:5px}
+.block-why{border-left-width:5px}
+.block-how{border-left-width:5px}
+.block-callout::before{font-size:13px}
+.block-check .check-q{font-size:18px;padding:16px 20px}

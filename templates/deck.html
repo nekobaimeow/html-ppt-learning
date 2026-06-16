@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>课件标题</title>
+<link rel="stylesheet" href="../assets/fonts.css">
+<link rel="stylesheet" href="../assets/base.css">
+<link rel="stylesheet" href="../assets/themes/learning-light.css" id="theme-link">
+<!-- KaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="lrn-deck" data-themes="learning-light,learning-dark,learning-print,learning-colorful">
+<div class="deck">
+
+  <!-- ═══ 1. COVER ═══ -->
+  <section class="slide lrn-cover is-active">
+    <div class="kicker">第 X 章</div>
+    <h1>课件主标题</h1>
+    <p class="subtitle">一句话描述本课件的内容和学习目标。</p>
+    <div class="meta">
+      <span>⏱ 预计 30 分钟</span>
+      <span>📚 先修：前置知识</span>
+      <span>⭐ 难度：中等</span>
+    </div>
+  </section>
+
+  <!-- ═══ 2. CONCEPT SLIDE ═══ -->
+  <section class="slide lrn-3">
+    <aside class="lrn-sidebar">
+      <div class="lrn-toc">
+        <div class="lrn-chapter">第1章 · 内存管理</div>
+        <ul class="lrn-tree">
+          <li class="done current">虚拟内存
+            <ul><li class="done current">概念</li><li>Why</li><li>How</li></ul>
+          </li>
+          <li>页面置换</li>
+          <li>TLB</li>
+        </ul>
+      </div>
+      <div class="lrn-formula-ref">
+        <div class="lrn-formula-title">📐 关键公式</div>
+        $$EAT = (1-p)T_{mem} + p T_{disk}$$
+      </div>
+    </aside>
+    <div class="lrn-main">
+      <div class="block-def">
+        <span class="term">虚拟内存</span>
+        <p>操作系统为每个进程提供的一个<strong>独立的、连续的</strong>地址空间抽象。进程看到的地址（虚拟地址）不等于物理内存地址。</p>
+      </div>
+      <div class="block-formula">
+        <h4>有效访问时间</h4>
+        $$EAT = (1-p) \times T_{\text{mem}} + p \times T_{\text{disk}}$$
+        <div class="vars">
+          <code>p</code> = 缺页率 &nbsp;|&nbsp;
+          <code>T<sub>mem</sub></code> = 内存访问时间 (~100ns) &nbsp;|&nbsp;
+          <code>T<sub>disk</sub></code> = 磁盘访问时间 (~10ms)
+        </div>
+      </div>
+      <div class="block-callout">
+        <p>缺页率从 0.1% 降到 0.01%，EAT 从 10μs 降到 1μs——<strong>100 倍差距</strong>。这就是为什么页面置换算法这么重要。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 3. WHY SLIDE ═══ -->
+  <section class="slide lrn-2">
+    <aside class="lrn-sidebar">
+      <div class="lrn-toc"><!-- same as above --></div>
+    </aside>
+    <div class="lrn-main">
+      <div class="block-why">
+        <h4>没有虚拟内存会怎样？</h4>
+        <p class="pain">❌ 进程 A 的 bug 可能覆盖进程 B 的内存</p>
+        <p class="gain">✅ 虚拟内存提供隔离——每个进程看到自己的地址空间</p>
+      </div>
+      <div class="block-example">
+        <h4>具体例子</h4>
+        <p>游戏加载 60GB 纹理，但你的电脑只有 16GB RAM。操作系统用虚拟内存让游戏"以为"有 60GB——实际只加载当前需要的页面到物理内存。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 4. HOW SLIDE ═══ -->
+  <section class="slide lrn-2">
+    <aside class="lrn-sidebar"><!-- ... --></aside>
+    <div class="lrn-main">
+      <div class="block-steps">
+        <div class="step"><h4>CPU 发出虚拟地址</h4><p>进程执行 <code>mov eax, [0x7fff1234]</code></p></div>
+        <div class="step"><h4>MMU 查 TLB</h4><p>快表命中 → 直接拿到物理地址（~1 cycle）</p></div>
+        <div class="step"><h4>TLB miss → 查页表</h4><p>MMU 遍历多级页表，找到物理页框号</p></div>
+        <div class="step"><h4>Page fault → 缺页中断</h4><p>如果页面不在内存，OS 从磁盘换入，更新页表</p></div>
+      </div>
+      <div class="block-diagram">
+        <pre style="font-size:12px;color:var(--text-2);text-align:left">
+CPU → [虚拟地址] → MMU → [查TLB]
+                  ↓ miss
+               [页表遍历]
+                  ↓
+            [物理地址] → RAM
+        </pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 5. REVIEW ═══ -->
+  <section class="slide lrn-full lrn-review">
+    <h2>📋 本章总结</h2>
+    <div class="block-summary">
+      <table>
+        <tr><th>概念</th><th>定义</th><th>关键公式</th></tr>
+        <tr><td>虚拟内存</td><td>进程地址空间的抽象</td><td>—</td></tr>
+        <tr><td>有效访问时间</td><td>平均内存访问时间</td><td>$$EAT = (1-p)T_{mem} + pT_{disk}$$</td></tr>
+        <tr><td>缺页率</td><td>访问的页面不在内存的概率</td><td>$$p = \frac{\text{page faults}}{\text{total accesses}}$$</td></tr>
+      </table>
+    </div>
+    <div class="block-check">
+      <div class="check-q" onclick="this.classList.toggle('open')">Q: 没有虚拟内存会怎样？</div>
+      <div class="check-a">进程直接操作物理地址：① 进程间无隔离（安全问题）② 必须全部加载到内存（浪费）③ 碎片化严重</div>
+    </div>
+  </section>
+
+</div>
+<script src="../assets/runtime.js"></script>
+</body>
+</html>

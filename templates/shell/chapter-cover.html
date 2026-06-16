@@ -1,0 +1,80 @@
+<!--
+  chapter-cover.html — 章节封面 slide HTML 片段
+  直接粘贴到 deck.html 的 <div class="deck"> 中，
+  作为每个章节的第一张 slide。
+  每个字段按实际内容替换。
+-->
+<section class="slide lrn-cover is-active" data-title="第N章 · 章节标题">
+  <!-- 章节编号 —— 如"第 3 章"、"Part II"、"附录 A" -->
+  <div class="kicker">第 X 章</div>
+
+  <!-- 章节主标题 -->
+  <h1>章节主标题</h1>
+
+  <!-- 一句话描述 -->
+  <p class="subtitle">学完本章后，你将理解什么、能够做什么</p>
+
+  <!-- 元信息标签行 -->
+  <div class="meta">
+    <span>⏱ 预计 45 分钟</span>
+    <span>📚 先修：前置知识列表</span>
+    <span>⭐ 难度：中等</span>
+  </div>
+
+  <!-- ===== 学习目标列表 ===== -->
+  <div style="
+    margin-top: 32px;
+    max-width: 560px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px 28px;
+    box-shadow: var(--shadow);
+  ">
+    <h3 style="
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 14px;
+      letter-spacing: .04em;
+    ">🎯 学习目标</h3>
+    <ul style="
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    ">
+      <li style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--text-2);line-height:1.6">
+        <span style="color:var(--accent-3);font-weight:700;flex-shrink:0">✓</span>
+        <span>理解虚拟内存的核心概念和设计动机</span>
+      </li>
+      <li style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--text-2);line-height:1.6">
+        <span style="color:var(--accent-3);font-weight:700;flex-shrink:0">✓</span>
+        <span>掌握有效访问时间 (EAT) 的计算方法和性能含义</span>
+      </li>
+      <li style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--text-2);line-height:1.6">
+        <span style="color:var(--accent-3);font-weight:700;flex-shrink:0">✓</span>
+        <span>能对比分析 3 种页面置换算法的优劣</span>
+      </li>
+      <li style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--text-2);line-height:1.6">
+        <span style="color:var(--accent-3);font-weight:700;flex-shrink:0">✓</span>
+        <span>能够解释 TLB 在地址翻译中的作用和性能影响</span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- ===== 前置条件（可选） ===== -->
+  <div style="
+    margin-top: 16px;
+    font-size: 12px;
+    color: var(--text-3);
+    line-height: 1.8;
+  ">
+    📋 <strong>前置条件</strong>：
+    了解进程与线程的基本概念 ·
+    知道 CPU 缓存 (L1/L2/L3) 的作用 ·
+    有 C 语言指针操作经验
+  </div>
+</section>
