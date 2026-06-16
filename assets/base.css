@@ -60,7 +60,6 @@ body{font-family:var(--font-body);font-size:var(--font-size-base);line-height:va
 
 /* ─── Deck container (A4-ish 比例, 屏幕居中) ─── */
 .deck{max-width:960px;margin:0 auto;padding:0}
-@media print{.deck{max-width:100%}}
 
 /* ─── Slide 基础 ─── */
 .slide{
@@ -213,11 +212,3 @@ body{font-family:var(--font-body);font-size:var(--font-size-base);line-height:va
 /* ─── 复习页 ─── */
 .lrn-review{padding:40px 56px;display:flex;flex-direction:column;gap:24px}
 .lrn-review h2{font-size:var(--font-size-h2);font-weight:800;color:var(--text-1);margin-bottom:8px}
-
-/* ─── 打印 ─── */
-@media print{
-  body{font-size:12px}
-  .slide{min-height:auto;page-break-after:always;padding:24px 32px}
-  .lrn-sidebar{font-size:10px}
-  .block-code{white-space:pre-wrap;word-break:break-all}
-}
