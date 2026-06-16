@@ -19,9 +19,15 @@
   @page{size:A4 landscape;margin:0}
   html,body{margin:0;padding:0;width:100%;height:100%}
   .deck{max-width:100%;margin:0;padding:0}
-  .slide{display:grid !important;page-break-after:always;page-break-inside:avoid;break-inside:avoid-page;padding:28px 32px;height:595pt;overflow:hidden;box-sizing:border-box}
-  .slide.lrn-cover{align-content:center}
-  .slide.lrn-review{align-content:start}
+  .slide{display:grid !important;page-break-after:always;page-break-inside:avoid;break-inside:avoid-page;padding:24px 32px;box-sizing:border-box}
+  .slide.lrn-cover{min-height:595pt;align-content:center}
+  .slide.lrn-review{font-size:10px;overflow:hidden;height:595pt;gap:12px}
+  .slide.lrn-review h2{font-size:16px;margin-bottom:0}
+  .slide.lrn-review .block-table{font-size:9px}
+  .slide.lrn-review .block-table th,.slide.lrn-review .block-table td{padding:2px 5px}
+  .slide.lrn-review .block-formula{font-size:10px;padding:8px 12px}
+  .slide.lrn-review .block-formula h4{font-size:12px;margin-bottom:4px}
+  .slide.lrn-review .block-formula .katex{font-size:0.85em}
   body{font-size:12px}
   .lrn-sidebar{font-size:10px}
   .block-code{white-space:pre-wrap;word-break:break-all}
