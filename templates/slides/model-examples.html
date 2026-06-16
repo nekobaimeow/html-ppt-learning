@@ -7,9 +7,13 @@
 <link rel="stylesheet" href="../../assets/base.css">
 <link rel="stylesheet" href="../../assets/themes/learning-light.css" id="theme-link">
 <!-- KaTeX -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../../assets/katex/katex.min.css">
+<script src="../../assets/katex/katex.min.js"></script>
+<script src="../../assets/katex/auto-render.min.js"></script>
+<script>
+// Blocking KaTeX render — must complete BEFORE Chrome --print-to-pdf snapshot
+(function(){if(typeof renderMathInElement!=="undefined"){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:true},{left:"$",right:"$",display:false}],throwOnError:false});}})();
+</script>
 </head>
 <body class="lrn-deck" data-themes="learning-light,learning-dark,learning-print,learning-colorful">
 <div class="deck">
