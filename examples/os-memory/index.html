@@ -274,29 +274,18 @@
         <tr><td>LRU</td><td>淘汰最久未使用的页面——最优的可行近似</td><td>—</td></tr>
         <tr><td>Clock 算法</td><td>循环扫描 reference bit，Linux 的实际选择</td><td>—</td></tr>
         <tr><td>Belady 异常</td><td>FIFO 的悖论：更多页框 ≠ 更少缺页</td><td>—</td></tr>
-        <tr><td>TLB</td><td>页表缓存——99%+ 命中率是性能关键</td><td>$$EAT \approx h \cdot 101 + (1-h) \cdot 201$$</td></tr>
+        <tr><td>TLB</td><td>页表缓存——99%+ 命中率是性能关键</td><td>$EAT \approx h \cdot 101 + (1-h) \cdot 201$</td></tr>
       </table>
     </div>
 
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:16px">
-      <div class="block-formula">
-        <h4>公式墙</h4>
-        <div style="display:flex;flex-direction:column;gap:14px;font-size:14px">
-          <div>$$\text{物理地址} = \text{PT}[\text{VPN}] \times 4096 + \text{offset}$$</div>
-          <div>$$EAT = (1-p) \times 100\text{ns} + p \times 10\text{ms}$$</div>
-          <div>$$EAT_{\text{TLB}} = h \times 101 + (1-h) \times 201 \text{ (cycles)}$$</div>
-          <div>$$N_{\text{faults}}^{\text{FIFO}}(M+1) > N_{\text{faults}}^{\text{FIFO}}(M) \text{ (Belady)}$$</div>
-        </div>
-      </div>
-      <div class="block-check">
-        <div class="check-q" onclick="this.classList.toggle('open')">Q: 为什么 Linux 不用纯 LRU 而用 Clock？</div>
+    <div class="block-check" style="margin-top:16px">
+        <div class="check-q open" onclick="this.classList.toggle('open')">Q: 为什么 Linux 不用纯 LRU 而用 Clock？</div>
         <div class="check-a">纯 LRU 需要每次内存访问更新硬件计数器 → 开销太大。Clock 算法只需一个 reference bit（PTE 第 5 位），MMU 硬件自动置位，OS 只需定期扫描清零——近似效果接近 LRU，零额外硬件成本。</div>
-        <div class="check-q" onclick="this.classList.toggle('open')" style="margin-top:10px">Q: 多级页表有什么代价？</div>
+        <div class="check-q open" onclick="this.classList.toggle('open')" style="margin-top:10px">Q: 多级页表有什么代价？</div>
         <div class="check-a">每次 TLB miss 需要遍历所有级（x86-64: 4 次内存访问）。所以 TLB 命中率必须极高，否则性能崩塌。这也是大页（2MB/1GB）的价值——减少页表层级。</div>
-        <div class="check-q" onclick="this.classList.toggle('open')" style="margin-top:10px">Q: Belady 异常只在 FIFO 中出现吗？</div>
+        <div class="check-q open" onclick="this.classList.toggle('open')" style="margin-top:10px">Q: Belady 异常只在 FIFO 中出现吗？</div>
         <div class="check-a">是的。LRU、Clock、OPT 都属于"栈算法"——分配给进程的页框越多，缺页率单调不增。FIFO 是唯一不满足栈性质的常见算法。</div>
       </div>
-    </div>
   </section>
 
 </div>
