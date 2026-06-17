@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="learning-light" data-themes="learning-light,learning-dark,learning-print" data-theme-base="../../assets/themes/">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>养猫完全教程 — 从入门到精通</title>
+<link rel="stylesheet" href="../../assets/fonts.css">
+<link rel="stylesheet" href="../../assets/base.css">
+<link rel="stylesheet" id="theme-link" href="../../assets/themes/learning-light.css">
+<link rel="stylesheet" media="print" href="../../assets/themes/learning-print.css">
+<link rel="stylesheet" href="../../assets/katex/katex.min.css">
+<style>
+:root { --accent: #f0835b; --accent-2: #e8a87c; --bg: #fef9f3; }
+.deck { max-width: 1100px; }
+
+/* === Photo Grids — responsive === */
+.photo-2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:12px 0; align-items:start; }
+.photo-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin:12px 0; align-items:start; }
+.photo-4 { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:10px; margin:12px 0; align-items:start; }
+.photo-2x1 { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:12px 0; align-items:start; }
+.photo-img { width:100%; border-radius:8px; object-fit:cover; aspect-ratio:16/9; }
+.photo-card { background:var(--surface); border-radius:8px; overflow:hidden; border:1px solid var(--border); }
+.photo-card img { width:100%; aspect-ratio:16/9; object-fit:cover; display:block; }
+.photo-card .cap { padding:6px 10px; font-size:11px; color:var(--text-2); text-align:center; }
+
+.cover-slide { background:linear-gradient(135deg, #fef3e8 0%, #fde2d0 50%, #fad4c0 100%); }
+.breed-badge { display:inline-block; padding:2px 8px; border-radius:12px; font-size:10px; font-weight:600; }
+.badge-easy { background:#d4edda; color:#155724; }
+.badge-medium { background:#fff3cd; color:#856404; }
+.badge-hard { background:#f8d7da; color:#721c24; }
+.cat-icon { font-size:18px; }
+
+/* === Mobile: stack photo grids vertically === */
+@media (max-width: 768px) {
+  .photo-2, .photo-2x1, .photo-3, .photo-4 {
+    grid-template-columns: 1fr !important;
+  }
+  .photo-2 .photo-card, .photo-2x1 .photo-card, .photo-3 .photo-card, .photo-4 .photo-card {
+    max-width: 100%;
+  }
+  .photo-img { max-height: 220px; }
+  .deck { padding: 0 8px; }
+  .slide { padding: 12px 16px !important; }
+  .slide h2 { font-size: 1.1em !important; }
+  .slide .block { padding: 6px 10px !important; }
+  .compare-table th, .compare-table td { padding: 3px 5px !important; font-size: 11px !important; }
+}
+
+@media print {
+  @page { size: A4 landscape; margin: 0; }
+  html, body { margin: 0; padding: 0; width: 100%; height: 100%; }
+  .sidebar { display: none !important; }
+  .main { margin-left: 0; width: 100%; }
+  .deck { max-width: 100%; margin: 0; padding: 0; }
+  .slide { page-break-after: always; padding: 16px 28px; font-size: 9pt;
+           max-height: 595pt; overflow: hidden !important; contain: layout paint; }
+  .slide:last-child { page-break-after: auto; }
+  .slide .photo-2 .photo-card:nth-child(2),
+  .slide .photo-3 .photo-card:nth-child(2), .slide .photo-3 .photo-card:nth-child(3),
+  .slide .photo-4 .photo-card:nth-child(2), .slide .photo-4 .photo-card:nth-child(3),
+  .slide .photo-4 .photo-card:nth-child(4) { display: none !important; }
+  .slide .photo-2 .photo-card:first-child,
+  .slide .photo-3 .photo-card:first-child,
+  .slide .photo-4 .photo-card:first-child { grid-column: 1 / -1; }
+  .slide .photo-img { max-height: 150pt; object-fit: cover; }
+  .slide h2 { font-size: 13pt !important; margin: 2px 0 !important; }
+  .slide h1 { font-size: 18pt !important; }
+  .slide h3 { font-size: 10pt !important; margin: 2px 0 !important; }
+  .slide .block { padding: 4px 8px !important; margin: 3px 0 !important; }
+  .slide .compare-table th, .slide .compare-table td { padding: 2px 3px !important; font-size: 7pt !important; }
+  .slide p, .slide li { margin: 1px 0 !important; line-height: 1.25 !important; font-size: 8pt !important; }
+  .slide .kicker { font-size: 8pt !important; }
+  .slide .block-label { font-size: 7pt !important; }
+  .slide.lrn-review { page-break-inside: auto; break-inside: auto; max-height: none; overflow: visible !important; }
+  .progress-bar, .progress-dots, .notes-overlay, .slide-number, .overview, .overview .slide, .overview * { display: none !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="deck" id="deck">
+
+<!-- ===== SLIDE 1: COVER ===== -->
+<div class="slide lrn-cover cover-slide" id="s1">
+  <div class="main" style="margin-left:0;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:85vh;text-align:center;">
+    <img src="images/01_cover_family.jpg" class="photo-img" style="max-width:600px;margin-bottom:24px;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,0.12);">
+    <h1 style="font-size:2.4em;color:var(--accent);margin:0 0 8px;">🐱 养猫完全教程</h1>
+    <p style="font-size:1.2em;color:var(--text-2);margin:0 0 4px;">从入门到精通 · 科学养猫 · 30 节系统课程</p>
+    <p style="font-size:0.85em;color:var(--text-3);">涵盖 20+ 品种 · 50+ 实拍猫片 · 新手到进阶全覆盖</p>
+  </div>
+</div>
+
+<!-- ===== SLIDE 2: 猫与人类史 ===== -->
+<div class="slide lrn-2" id="s2">
+  <div class="sidebar"><div class="tree"><strong>🐱 养猫完全教程</strong><br>├─ 全景认知<br>│  ├─ <b>猫与人类</b> ←<br>│  ├─ 基本生理<br>│  ├─ 养猫好处<br>│  └─ 适不适合<br>├─ 品种大观<br>├─ 养护实战<br>├─ 进阶专题<br>└─ 总结复习</div></div>
+  <div class="main">
+    <h2>🏛️ 猫与人类：九千年的羁绊</h2>
+    <div class="photo-2x1">
+      <div>
+        <div class="block block-motivation">
+          <div class="block-label">📍 起源</div>
+          <p>家猫祖先为<strong>非洲野猫</strong>（Felis lybica），约 <strong>9500 年前</strong>在新月沃地被驯化。人类农业定居吸引啮齿类 → 猫主动靠近 → 共生关系形成。</p>
+        </div>
+        <div class="block block-def">
+          <div class="block-label">🇨🇳 中国猫史</div>
+          <p>唐代（约 775-940 年）经丝绸之路传入 → 宋代「<strong>聘猫礼</strong>」仪式感拉满（写聘书 + 盐糖作聘礼）→ 陆游写下数十首咏猫诗，「我与狸奴不出门」千古流传。</p>
+        </div>
+        <div class="block block-callout">
+          <div class="block-label">💡 文化符号</div>
+          <p>「猫蝶图」谐音<b>耄耋</b>（八九十岁）→ 长寿吉祥。古埃及崇拜猫神 Bastet。日本招财猫（Maneki-neko）。</p>
+        </div>
+      </div>
+      <img src="images/02_cat_history.jpg" class="photo-img">
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 3: 基本生理 ===== -->
+<div class="slide lrn-2" id="s3">
+  <div class="sidebar"><div class="tree"><strong>🐱 养猫完全教程</strong><br>├─ 全景认知<br>│  ├─ 猫与人类<br>│  ├─ <b>基本生理</b> ←<br>│  ├─ 养猫好处<br>│  └─ 适不适合<br>├─ 品种大观<br>├─ 养护实战<br>├─ 进阶专题<br>└─ 总结复习</div></div>
+  <div class="main">
+    <h2>🔬 猫的基本生理特征</h2>
+    <div class="photo-2x1">
+      <div>
+        <div class="block block-def">
+          <div class="block-label">📐 基础数据</div>
+          <table class="compare-table"><tr><th>项目</th><th>数据</th></tr>
+          <tr><td>平均寿命</td><td>12-18 年（室内猫可达 20+）</td></tr>
+          <tr><td>体重范围</td><td>2.5-11kg（品种差异巨大）</td></tr>
+          <tr><td>体温</td><td>38.0-39.2°C</td></tr>
+          <tr><td>心跳</td><td>140-220 次/分钟</td></tr>
+          <tr><td>品种数量</td><td>CFA 认证 45 种 / TICA 认证 73 种</td></tr></table>
+        </div>
+        <div class="block block-callout">
+          <div class="block-label">⚠️ 专性肉食动物</div>
+          <p>猫是<strong>专性肉食动物</strong>（obligate carnivore），必须从动物组织中获取牛磺酸、花生四烯酸、维生素 A——纯素食会致死。</p>
+        </div>
+      </div>
+      <img src="images/03_cat_anatomy.jpg" class="photo-img">
+    </div>
+    <div class="block block-steps">
+      <div class="block-label">🧬 超能力</div>
+      <p>夜视能力是人类的 6-8 倍 · 听觉范围 48Hz-85kHz（人类 20Hz-20kHz）· 胡须精确到毫米级气流感知 · 从 2.5 米高处落下可空中转体着地（翻正反射）</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 4: 养猫的好处 ===== -->
+<div class="slide lrn-2" id="s4">
+  <div class="sidebar"><div class="tree"><strong>🐱 养猫完全教程</strong><br>├─ 全景认知<br>│  ├─ 猫与人类<br>│  ├─ 基本生理<br>│  ├─ <b>养猫好处</b> ←<br>│  └─ 适不适合<br>├─ 品种大观<br>├─ 养护实战<br>├─ 进阶专题<br>└─ 总结复习</div></div>
+  <div class="main">
+    <h2>💝 养猫的科学好处</h2>
+    <div class="photo-2x1">
+      <img src="images/04_cat_benefits.jpg" class="photo-img">
+      <div>
+        <div class="block block-motivation">
+          <div class="block-label">🧠 心理健康</div>
+          <p>撸猫释放<strong>催产素</strong>（爱的荷尔蒙），降低<strong>皮质醇</strong>（压力激素）。研究显示养猫者心脏病风险降低 30%，抑郁焦虑症状显著改善。</p>
+        </div>
+        <div class="block block-example">
+          <div class="block-label">📊 数据说话</div>
+          <p>• 猫的呼噜声频率 20-140Hz — 恰好是<strong>促进骨骼愈合和软组织修复</strong>的治疗频率<br>• 养猫儿童过敏和哮喘发病率<strong>降低 50%</strong>（早期暴露建立免疫耐受）<br>• 一项 10 年追踪：养猫者中风风险 <strong>↓30%</strong></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 5: 你适合养猫吗 ===== -->
+<div class="slide lrn-2" id="s5">
+  <div class="sidebar"><div class="tree"><strong>🐱 养猫完全教程</strong><br>├─ 全景认知<br>│  ├─ 猫与人类<br>│  ├─ 基本生理<br>│  ├─ 养猫好处<br>│  └─ <b>适不适合</b> ←<br>├─ 品种大观<br>├─ 养护实战<br>├─ 进阶专题<br>└─ 总结复习</div></div>
+  <div class="main">
+    <h2>🤔 你适合养猫吗？自测清单</h2>
+    <div class="photo-2x1">
+      <div>
+        <div class="block block-check">
+          <div class="block-label">✅ 适合养猫的条件</div>
+          <ul>
+            <li>每天能保证 <strong>≥1 小时</strong>陪伴互动</li>
+            <li>住所稳定，房东/家人同意</li>
+            <li>经济能力：月均预算 <strong>200-500 元</strong></li>
+            <li>愿意接受 15-20 年的责任</li>
+            <li>能接受家里有猫毛</li>
+          </ul>
+        </div>
+        <div class="block block-counter">
+          <div class="block-label">❌ 以下情况请三思</div>
+          <ul>
+            <li>经常出差（每月 >10 天不在家）</li>
+            <li>对猫严重过敏</li>
+            <li>家人强烈反对</li>
+            <li>居住空间极小且无法封窗</li>
+          </ul>
+        </div>
+      </div>
+      <img src="images/05_suitability.jpg" class="photo-img">
+    </div>
+    <div class="block block-callout"><div class="block-label">💰 年成本速算</div><p>基础版 ~3,000 元/年 · 标准版 ~6,000 元/年 · 精致版 ~15,000 元/年（含保险+高端粮+定期体检）</p></div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 6: 短毛猫品种（上）===== -->
+<div class="slide lrn-4" id="s6">
+  <div class="sidebar"><div class="tree"><strong>🐱 养猫完全教程</strong><br>├─ 全景认知<br>├─ 品种大观<br>│  ├─ <b>短毛猫(上)</b> ←<br>│  ├─ 短毛猫(下)<br>│  ├─ 长毛猫<br>│  ├─ 特殊品种<br>│  ├─ 中华田园猫<br>│  └─ 选择指南<br>├─ 养护实战<br>├─ 进阶专题<br>└─ 总结复习</div></div>
+  <div class="main">
+    <h2>🐱 短毛猫品种（上）— 新手友好</h2>
+    <div class="photo-4">
+      <div class="photo-card"><img src="images/06_british_shorthair.jpg"><div class="cap"><b>英国短毛猫</b> <span class="breed-badge badge-easy">★ 容易</span><br>圆脸圆眼 · 安静温和 · 独立不粘人</div></div>
+      <div class="photo-card"><img src="images/07_american_shorthair.jpg"><div class="cap"><b>美国短毛猫</b> <span class="breed-badge badge-easy">★ 容易</span><br>体格健壮 · 活泼开朗 · 经典银虎斑</div></div>
+      <div class="photo-card"><img src="images/08_siamese.jpg"><div class="cap"><b>暹罗猫</b> <span class="breed-badge badge-medium">★★ 中等</span><br>修长优雅 · 极其聪明 ·「话多」粘人</div></div>
+      <div class="photo-card"><img src="images/09_russian_blue.jpg"><div class="cap"><b>俄罗斯蓝猫</b> <span class="breed-badge badge-easy">★ 容易</span><br>银蓝被毛 · 害羞深情 · 安静独立</div></div>
+    </div>
+    <div class="block block-compare">
+      <div class="block-label">⚡ 快速对比</div>
+      <table class="compare-table"><tr><th></th><th>英短</th><th>美短</th><th>暹罗</th><th>俄蓝</th></tr>
+      <tr><td>活动量</td><td>低</td><td>中</td><td>高</td><td>低-中</td></tr>
+      <tr><td>亲人度</td><td>中</td><td>高</td><td>极高</td><td>中(对主人高)</td></tr>
+      <tr><td>护理难度</td><td>低</td><td>低</td><td>低</td><td>低</td></tr>
+      <tr><td>适合新手</td><td>✅ 首推</td><td>✅</td><td>⚠️ 需陪伴</td><td>✅</td></tr></table>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 7: 短毛猫品种（下）===== -->
+<div class="slide lrn-4" id="s7">
+  <div class="sidebar"><div class="tree"><strong>🐱 养猫完全教程</strong><br>├─ 全景认知<br>├─ 品种大观<br>│  ├─ 短毛猫(上)<br>│  ├─ <b>短毛猫(下)</b> ←<br>│  ├─ 长毛猫<br>│  ├─ 特殊品种<br>│  ├─ 中华田园猫<br>│  └─ 选择指南<br>├─ 养护实战<br>├─ 进阶专题<br>└─ 总结复习</div></div>
+  <div class="main">
+    <h2>🐱 短毛猫品种（下）— 个性派</h2>
+    <div class="photo-4">
+      <div class="photo-card"><img src="images/10_abyssinian.jpg"><div class="cap"><b>阿比西尼亚猫</b> <span class="breed-badge badge-medium">★★ 中等</span><br>毛色如野兔 · 极其活跃 · 好奇宝宝</div></div>
+      <div class="photo-card"><img src="images/11_burmese.jpg"><div class="cap"><b>缅甸猫</b> <span class="breed-badge badge-medium">★★ 中等</span><br>丝绸被毛 · 甜美金眼 · 像小狗一样</div></div>
+      <div class="photo-card"><img src="images/12_oriental_shorthair.jpg"><div class="cap"><b>东方短毛猫</b> <span class="breed-badge badge-medium">★★ 中等</span><br>修长极致 · 大耳精灵 · 话比暹罗还多</div></div>
+      <div class="photo-card"><img src="images/13_devon_rex.jpg"><div class="cap"><b>德文卷毛猫</b> <span class="breed-badge badge-medium">★★ 中等</span><br>卷曲短毛 · 蝙蝠耳 · 小精灵长相</div></div>
+    </div>
+    <div class="block block-callout"><div class="block-label">🎯 选哪个？</div><p>阿比 = 运动达人 · 缅甸 = 甜蜜粘人精 · 东方 = 极致社交 · 德文 = 低敏卷毛。所有短毛猫掉毛量 <strong>< 长毛猫</strong>，梳毛每周 1-2 次即可。</p></div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 8: 长毛猫品种 ===== -->
+<div class="slide lrn-4" id="s8">
+  <div class="sidebar"><div class="tree"><strong>🐱 养猫完全教程</strong><br>├─ 全景认知<br>├─ 品种大观<br>│  ├─ 短毛猫(上)<br>│  ├─ 短毛猫(下)<br>│  ├─ <b>长毛猫</b> ←<br>│  ├─ 特殊品种<br>│  ├─ 中华田园猫<br>│  └─ 选择指南<br>├─ 养护实战<br>├─ 进阶专题<br>└─ 总结复习</div></div>
+  <div class="main">
+    <h2>👑 长毛猫品种 — 华丽贵族</h2>
+    <div class="photo-4">
+      <div class="photo-card"><img src="images/14_persian.jpg"><div class="cap"><b>波斯猫</b> <span class="breed-badge badge-hard">★★★ 挑战</span><br>扁脸圆眼 · 长毛华丽 · 每日梳理必须</div></div>
+      <div class="photo-card"><img src="images/15_ragdoll.jpg"><div class="cap"><b>布偶猫</b> <span class="breed-badge badge-medium">★★ 中等</span><br>蓝眼重点色 · 抱如布偶 · 天使性格</div></div>
+      <div class="photo-card"><img src="images/16_maine_coon.jpg"><div class="cap"><b>缅因猫</b> <span class="breed-badge badge-medium">★★ 中等</span><br>体型最大 · 温柔的巨人 · 蓬松大尾</div></div>
+      <div class="photo-card"><img src="images/17_norwegian_forest.jpg"><div class="cap"><b>挪威森林猫</b> <span class="breed-badge badge-medium">★★ 中等</span><br>防水被毛 · 独立友善 · 天生攀爬者</div></div>
+    </div>
+    <div class="block block-callout"><div class="block-label">⚠️ 长毛猫必修课</div><p>每日梳毛 <strong>10-15 分钟</strong>防毛球 · 换毛季每天 2 次 · 波斯猫需每日擦眼睛 · 布偶猫不能长时间独处 · 缅因猫食量是普通猫 2 倍</p></div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 9: 特殊品种 ===== -->
+<div class="slide lrn-3" id="s9">
+  <div class="sidebar"><div class="tree"><strong>🐱 养猫完全教程</strong><br>├─ 全景认知<br>├─ 品种大观<br>│  ├─ 短毛猫<br>│  ├─ 长毛猫<br>│  ├─ <b>特殊品种</b> ←<br>│  ├─ 中华田园猫<br>│  └─ 选择指南<br>├─ 养护实战<br>├─ 进阶专题<br>└─ 总结复习</div></div>
+  <div class="main">
+    <h2>🦄 特殊品种 — 与众不同</h2>
+    <div class="photo-3">
+      <div class="photo-card"><img src="images/18_sphynx.jpg"><div class="cap"><b>斯芬克斯猫</b> <span class="breed-badge badge-hard">★★★</span><br>几乎无毛 · 需每周洗澡 · 怕冷需保暖 · 极度外向粘人</div></div>
+      <div class="photo-card"><img src="images/19_scottish_fold.jpg"><div class="cap"><b>苏格兰折耳猫</b> <span class="breed-badge badge-medium">★★</span><br>折耳圆脸 · 甜美安静 · ⚠️ 遗传软骨病风险 · 需定期体检</div></div>
+      <div class="photo-card"><img src="images/20_bengal.jpg"><div class="cap"><b>孟加拉猫</b> <span class="breed-badge badge-hard">★★★</span><br>豹纹华丽 · 精力爆表 · 爱玩水 · 需大量空间和互动</div></div>
+    </div>
+    <div class="block block-callout"><div class="block-label">⚠️ 重要提醒</div><p><b>折耳猫</b>：折耳基因与软骨发育异常基因连锁，100% 有不同程度的骨骼问题。建议选择<strong>立耳苏格兰猫</strong>（Scottish Straight）替代。养折耳需每年拍 X 光检查关节。斯芬克斯需要穿衣服保暖，孟加拉需要至少 <strong>2 小时/天</strong>高强度互动。</p></div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 10: 中华田园猫 ===== -->
+<div class="slide lrn-4" id="s10">
+  <div class="sidebar"><div class="tree"><strong>🐱 养猫完全教程</strong><br>├─ 全景认知<br>├─ 品种大观<br>│  ├─ 短毛猫<br>│  ├─ 长毛猫<br>│  ├─ 特殊品种<br>│  ├─ <b>中华田园猫</b> ←<br>│  └─ 选择指南<br>├─ 养护实战<br>├─ 进阶专题<br>└─ 总结复习</div></div>
+  <div class="main">
+    <h2>🇨🇳 中华田园猫 — 本土瑰宝</h2>
+    <div class="photo-4">
+      <div class="photo-card"><img src="images/21_lihua_cat.jpg"><div class="cap"><b>狸花猫</b> <span class="breed-badge badge-easy">★ 国猫</span><br>CAA 认证 · 额头 M 字纹 · 独立聪明 · 捕鼠天才</div></div>
+      <div class="photo-card"><img src="images/22_orange_tabby.jpg"><div class="cap"><b>橘猫</b> <span class="breed-badge badge-easy">★ 吃货</span><br>「十橘九胖」· 性格好到爆 · 中华名猫 No.1</div></div>
+      <div class="photo-card"><img src="images/23_cow_cat.jpg"><div class="cap"><b>奶牛猫</b> <span class="breed-badge badge-easy">★ 神经质</span><br>黑白配 · 精力旺盛 · 猫中哈士奇 · 每天演小品</div></div>
+      <div class="photo-card"><img src="images/24_calico_cat.jpg"><div class="cap"><b>三花猫</b> <span class="breed-badge badge-easy">★ 招财</span><br>橘黑白三色 · 99.9% 是母猫 · 日本招财猫原型</div></div>
+    </div>
+    <div class="block block-callout"><div class="block-label">💚 领养代替购买</div><p>中华田园猫体质强健、适应力好、遗传病少。全国各地救助站、领养平台都有大量可爱田园猫等待一个家 — <strong>品种不重要，爱才重要。</strong></p></div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 11: 品种选择指南 ===== -->
+<div class="slide lrn-2" id="s11">
+  <div class="sidebar"><div class="tree"><strong>🐱 养猫完全教程</strong><br>├─ 全景认知<br>├─ 品种大观<br>│  ├─ ...品种...<br>│  └─ <b>选择指南</b> ←<br>├─ 养护实战<br>├─ 进阶专题<br>└─ 总结复习</div></div>
+  <div class="main">
+    <h2>🎯 品种选择指南：找到你的天命猫</h2>
+    <img src="images/25_breed_comparison.jpg" class="photo-img" style="max-height:200px;margin-bottom:12px;">
+    <table class="compare-table">
+      <tr><th>你的需求</th><th>推荐品种</th><th>原因</th></tr>
+      <tr><td>🏠 第一次养猫</td><td>英短 / 美短 / 橘猫</td><td>体质好、性格稳定、护理简单</td></tr>
+      <tr><td>👶 有小孩家庭</td><td>布偶 / 缅因 / 美短</td><td>温和宽容、不易抓人</td></tr>
+      <tr><td>🏢 小公寓</td><td>俄蓝 / 英短 / 波斯</td><td>安静、活动量低</td></tr>
+      <tr><td>🤧 过敏体质</td><td>俄蓝 / 德文 / 斯芬克斯</td><td>低致敏（Fel d1 蛋白少或无毛）</td></tr>
+      <tr><td>🏃 运动达人</td><td>孟加拉 / 阿比 / 暹罗</td><td>精力旺盛、喜欢互动游戏</td></tr>
+      <tr><td>🛋️ 佛系宅家</td><td>波斯 / 英短 / 布偶</td><td>懒、安静、不爱动</td></tr>
+      <tr><td>💸 预算有限</td><td>田园猫（领养）</td><td>健康、免费、同样可爱</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ===== SLIDE 12: 接猫前准备 ===== -->
+<div class="slide lrn-3" id="s12">
+  <div class="sidebar"><div class="tree"><strong>🐱 养猫完全教程</strong><br>├─ 全景认知<br>├─ 品种大观<br>├─ 养护实战<br>│  ├─ <b>接猫准备</b> ←<br>│  ├─ 猫粮选择<br>│  ├─ 猫砂全攻略<br>│  ├─ 饮食管理<br>│  ├─ 日常护理<br>│  ├─ 疫苗绝育<br>│  ├─ 疾病预防<br>│  ├─ 行为解读<br>│  └─ 环境丰容<br>├─ 进阶专题<br>└─ 总结复习</div></div>
+  <div class="main">
+    <h2>🛒 接猫前准备 — 必备清单</h2>
+    <div class="photo-2x1">
+      <img src="images/26_supplies_checklist.jpg" class="photo-img">
+      <div>
+        <div class="block block-steps"><div class="block-label">✅ 基础用品（必备）</div>
+        <ul><li>🥣 食碗 + 水碗（不锈钢/陶瓷，不用塑料）</li><li>🚽 猫砂盆 + 猫砂（数量 = 猫数 + 1）</li><li>🍖 优质猫粮（问清之前的粮，备好过渡）</li><li>🏠 猫窝/猫抓板</li><li>🎒 航空箱/猫包</li></ul></div>
+        <div class="block block-steps"><div class="block-label">🩺 医疗健康</div>
+        <ul><li>驱虫药（体内+体外）</li><li>疫苗本 / 体检预约</li><li>宠物保险（推荐！）</li></ul></div>
+        <div class="block block-callout"><div class="block-label">🏠 到家前安全检查</div><p>封窗封阳台！收起电线、小物件、百合花（剧毒）、巧克力。准备一个<strong>安静小房间</strong>做「安全基地」让猫先适应 2-3 天。</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 13: 猫粮选择（上）===== -->
+<div class="slide lrn-3" id="s13">
+  <div class="sidebar"><div class="tree"><strong>🐱 养猫完全教程</strong><br>├─ 全景认知<br>├─ 品种大观<br>├─ 养护实战<br>│  ├─ 接猫准备<br>│  ├─ <b>猫粮选择</b> ←<br>│  ├─ 猫砂全攻略<br>│  ├─ ...<br>├─ 进阶专题<br>└─ 总结复习</div></div>
+  <div class="main">
+    <h2>🍖 猫粮选择（上）— 四大类型对比</h2>
+    <img src="images/27_cat_food_types.jpg" class="photo-img" style="max-height:180px;margin-bottom:8px;">
+    <table class="compare-table">
+      <tr><th></th><th>干粮 (Kibble)</th><th>湿粮 (罐头)</th><th>生骨肉 (Raw)</th><th>冻干 (Freeze-Dried)</th></tr>
+      <tr><td>含水量</td><td>8-10%</td><td>75-78%</td><td>65-70%</td><td>3-5%</td></tr>
+      <tr><td>蛋白质</td><td>30-40%</td><td>40-55%</td><td>50-65%</td><td>45-55%</td></tr>
+      <tr><td>碳水</td><td>30-50% ⚠️</td><td>&lt;10% ✅</td><td>&lt;2% ✅</td><td>&lt;5% ✅</td></tr>
+      <tr><td>月成本</td><td>~80-150 元</td><td>~200-400 元</td><td>~300-600 元</td><td>~400-800 元</td></tr>
+      <tr><td>优点</td><td>便宜 · 储存方便</td><td>补水利尿 · 高蛋白</td><td>最天然 · 便臭少</td><td>营养保留好 · 易储存</td></tr>
+      <tr><td>缺点</td><td>碳水高 · 易脱水</td><td>贵 · 开封快变质</td><td>细菌风险 · 配比难</td><td>最贵 · 复水后限时</td></tr>
+    </table>
+    <div class="block block-callout"><div class="block-label">💡 黄金搭配</div><p><strong>湿粮 ≥50% 热量 + 优质干粮为辅 + 偶尔冻干奖励</strong>。猫是沙漠起源动物，天生口渴感弱，干粮为主喂养导致慢性脱水 → 泌尿系统疾病高发。</p></div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 14: 猫粮选择（下）===== -->
+<div class="slide lrn-3" id="s14">
+  <div class="sidebar"><div class="tree"><strong>🐱 养猫完全教程</strong><br>├─ 全景认知<br>├─ 品种大观<br>├─ 养护实战<br>│  ├─ 接猫准备<br>│  ├─ <b>猫粮选择</b> ←<br>│  ├─ 猫砂全攻略<br>│  ├─ ...<br>├─ 进阶专题<br>└─ 总结复习</div></div>
+  <div class="main">
+    <h2>🍖 猫粮选择（下）— 成分解析 & 换粮法</h2>
+    <div class="photo-2x1">
+      <img src="images/28_cat_food_ingredients.jpg" class="photo-img">
+      <div>
+        <div class="block block-def"><div class="block-label">🔍 看配料表三步法</div>
+        <ol><li><b>第一位</b>必须是明确动物蛋白（「鸡肉」✅ /「禽肉」❌）</li><li>前 5 位中动物蛋白 ≥ 3 个</li><li>避免：玉米、小麦、大豆、人工色素、BHA/BHT</li></ol></div>
+        <div class="block block-steps"><div class="block-label">🔄 7-10 天换粮法</div>
+        <table class="compare-table"><tr><th>天数</th><td>1-2</td><td>3-4</td><td>5-6</td><td>7-8</td><td>9-10</td></tr>
+        <tr><th>新粮</th><td>25%</td><td>40%</td><td>60%</td><td>80%</td><td>100%</td></tr></table></div>
+      </div>
+    </div>
+    <div class="block block-compare"><div class="block-label">👶 年龄段喂食指南</div>
+    <table class="compare-table"><tr><th>阶段</th><th>年龄</th><th>特点</th><th>每日餐数</th></tr>
+    <tr><td>幼猫</td><td>0-12 月</td><td>高能需求 · 专用幼猫粮</td><td>3-4 餐</td></tr>
+    <tr><td>成年</td><td>1-7 岁</td><td>维持体重 · 定时定量</td><td>2-3 餐</td></tr>
+    <tr><td>老年</td><td>7 岁+</td><td>易消化 · 低磷护肾</td><td>2 餐</td></tr></table></div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 15: 猫砂全攻略 ===== -->
+<div class="slide lrn-3" id="s15">
+  <div class="sidebar"><div class="tree"><strong>🐱 养猫完全教程</strong><br>├─ 全景认知<br>├─ 品种大观<br>├─ 养护实战<br>│  ├─ ...猫粮...<br>│  ├─ <b>猫砂攻略</b> ←<br>│  ├─ 饮食管理<br>│  ├─ ...<br>├─ 进阶专题<br>└─ 总结复习</div></div>
+  <div class="main">
+    <h2>🚽 猫砂全攻略 — 5 种主流猫砂对比</h2>
+    <img src="images/29_cat_litter_types.jpg" class="photo-img" style="max-height:160px;margin-bottom:8px;">
+    <table class="compare-table">
+      <tr><th></th><th>膨润土砂</th><th>豆腐砂</th><th>水晶砂</th><th>松木砂</th><th>纸质砂</th></tr>
+      <tr><td>原料</td><td>钠基膨润土</td><td>豆腐渣/玉米</td><td>二氧化硅</td><td>松木屑</td><td>再生纸</td></tr>
+      <tr><td>结团</td><td>⭐⭐⭐ 快而实</td><td>⭐⭐ 中</td><td>❌ 不结团</td><td>❌ 散粉状</td><td>⭐ 弱</td></tr>
+      <tr><td>除臭</td><td>⭐⭐⭐</td><td>⭐⭐ 自然豆香</td><td>⭐⭐⭐</td><td>⭐⭐ 松木香</td><td>⭐</td></tr>
+      <tr><td>粉尘</td><td>⚠️ 较多</td><td>✅ 很少</td><td>✅ 无</td><td>✅ 少</td><td>✅ 无</td></tr>
+      <tr><td>环保</td><td>❌ 不可降解</td><td>✅ 可冲厕所</td><td>❌</td><td>✅</td><td>✅</td></tr>
+      <tr><td>月成本</td><td>~20-40 元</td><td>~40-80 元</td><td>~30-60 元</td><td>~30-50 元</td><td>~20-40 元</td></tr>
+    </table>
+    <div class="block block-callout"><div class="block-label">🏆 推荐</div><p><b>新手首选豆腐砂</b> — 粉尘少、可冲厕所、除臭不错。猫砂盆数量 = 猫数 + 1（N+1 法则），放在安静角落，远离食碗。</p></div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 16: 饮水与喂食 ===== -->
+<div class="slide lrn-3" id="s16">
+  <div class="sidebar"><div class="tree"><strong>🐱 养猫完全教程</strong><br>├─ 全景认知<br>├─ 品种大观<br>├─ 养护实战<br>│  ├─ ...猫粮...<br>│  ├─ ...猫砂...<br>│  ├─ <b>饮食管理</b> ←<br>│  ├─ ...<br>├─ 进阶专题<br>└─ 总结复习</div></div>
+  <div class="main">
+    <h2>💧 饮水与喂食管理</h2>
+    <div class="photo-2x1">
+      <img src="images/30_cat_drinking.jpg" class="photo-img">
+      <div>
+        <div class="block block-def"><div class="block-label">💧 饮水量</div><p>每天 <strong>40-60ml / kg</strong> 体重。4kg 猫 ≈ 160-240ml/天。湿粮可提供 75% 水分，吃湿粮的猫额外喝水需求少很多。</p></div>
+        <div class="block block-callout"><div class="block-label">🚰 让猫多喝水</div><p>• 流动水 > 静态水（买饮水机）<br>• 多个水碗分布家中<br>• 水碗远离食碗和猫砂盆<br>• 可加少量金枪鱼汁诱喝</p></div>
+      </div>
+    </div>
+    <div class="block block-counter"><div class="block-label">🚫 绝对禁止食物（全部剧毒）</div>
+    <p>🍫 巧克力 · 🧅 洋葱/大蒜/韭菜 · 🍇 葡萄/葡萄干 · 🥑 牛油果 · 🍺 酒精 · ☕ 咖啡因 · 🥜 夏威夷果 · 🌸 百合花（花粉即可致命）· 生面团/生鸡蛋</p></div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 17: 日常护理 ===== -->
+<div class="slide lrn-3" id="s17">
+  <div class="sidebar"><div class="tree"><strong>🐱 养猫完全教程</strong><br>├─ 全景认知<br>├─ 品种大观<br>├─ 养护实战<br>│  ├─ ...<br>│  ├─ <b>日常护理</b> ←<br>│  ├─ 疫苗绝育<br>│  ├─ ...<br>├─ 进阶专题<br>└─ 总结复习</div></div>
+  <div class="main">
+    <h2>✂️ 日常护理 — 梳毛 · 剪指甲 · 刷牙</h2>
+    <div class="photo-2">
+      <div class="photo-card"><img src="images/31_grooming_brush.jpg"><div class="cap"><b>梳毛</b>：短毛 1-2次/周 · 长毛 每天 · 换毛季加倍</div></div>
+      <div class="photo-card"><img src="images/32_nail_trimming.jpg"><div class="cap"><b>剪指甲</b>：每 2-3 周 · 只剪透明尖端 · 避开粉红血线</div></div>
+    </div>
+    <table class="compare-table">
+      <tr><th>护理项目</th><th>频率</th><th>工具</th><th>要点</th></tr>
+      <tr><td>梳毛</td><td>短毛 1-2次/周 · 长毛 每天</td><td>针梳/排梳/去底绒耙</td><td>顺着毛流 · 换毛季用 Furminator</td></tr>
+      <tr><td>剪指甲</td><td>每 2-3 周</td><td>猫专用指甲剪</td><td>只剪尖端 2mm 透明部分 · 避开血线</td></tr>
+      <tr><td>刷牙</td><td>理想每天 · 至少 2-3次/周</td><td>猫专用牙膏+指套刷</td><td>鸡肉味牙膏猫易接受 · 3 岁猫 70% 有牙周病</td></tr>
+      <tr><td>洗澡</td><td>3-6 个月一次（猫自洁能力强）</td><td>猫专用香波</td><td>水温 38°C · 避免头和耳朵进水 · 斯芬克斯需每周洗</td></tr>
+      <tr><td>清理耳朵</td><td>每 1-2 周检查</td><td>宠物耳液+棉球</td><td>只擦外耳廓 · 有黑渣/异味→就医</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ===== SLIDE 18: 疫苗与驱虫 ===== -->
+<div class="slide lrn-3" id="s18">
+  <div class="sidebar"><div class="tree"><strong>🐱 养猫完全教程</strong><br>├─ 全景认知<br>├─ 品种大观<br>├─ 养护实战<br>│  ├─ ...<br>│  ├─ <b>疫苗绝育</b> ←<br>│  ├─ 疾病预防<br>│  ├─ ...<br>├─ 进阶专题<br>└─ 总结复习</div></div>
+  <div class="main">
+    <h2>💉 疫苗与驱虫 — 时间表</h2>
+    <div class="photo-2x1">
+      <img src="images/33_vaccination.jpg" class="photo-img">
+      <div>
+        <div class="block block-steps"><div class="block-label">🦠 核心疫苗（FVRCP — 猫三联）</div>
+        <table class="compare-table"><tr><th>针次</th><th>年龄</th><th>说明</th></tr>
+        <tr><td>第 1 针</td><td>6-8 周</td><td>母源抗体消退后首免</td></tr>
+        <tr><td>第 2 针</td><td>10-12 周</td><td>加强</td></tr>
+        <tr><td>第 3 针</td><td>14-16 周</td><td>最后加强</td></tr>
+        <tr><td>加强</td><td>1 年后</td><td>之后每 1-3 年一次</td></tr></table></div>
+        <div class="block block-steps"><div class="block-label">🪱 驱虫计划</div>
+        <p>• <b>体内</b>：幼猫每月 1 次至 6 月龄 → 之后每 3 个月 1 次<br>• <b>体外</b>：每月 1 次（滴剂）或每 3 个月（长效）<br>• 狂犬疫苗：3 月龄以上，每年 1 次（部分地区强制）</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 19: 绝育 ===== -->
+<div class="slide lrn-3" id="s19">
+  <div class="sidebar"><div class="tree"><strong>🐱 养猫完全教程</strong><br>├─ 全景认知<br>├─ 品种大观<br>├─ 养护实战<br>│  ├─ ...<br>│  ├─ 疫苗绝育<br>│  ├─ <b>绝育</b> ←<br>│  ├─ 疾病预防<br>│  ├─ ...<br>├─ 进阶专题<br>└─ 总结复习</div></div>
+  <div class="main">
+    <h2>🏥 绝育 — 为爱负责</h2>
+    <div class="photo-2x1">
+      <div>
+        <div class="block block-def"><div class="block-label">⏰ 最佳年龄</div><p><b>公猫 6-8 月龄 · 母猫 5-6 月龄</b>（首次发情前）。体重达标（≥2kg）即可。早绝育 ≠ 影响发育——科学证据不支持此说法。</p></div>
+        <div class="block block-motivation"><div class="block-label">✅ 绝育好处</div>
+        <ul><li>母猫：避子宫蓄脓（未绝育母猫 25% 发病率）、乳腺癌 ↓91%</li><li>公猫：避睾丸癌 · 减少乱尿标记 · 降低攻击性和出走欲</li><li>寿命：绝育猫平均寿命 +2-3 年</li></ul></div>
+      </div>
+      <img src="images/34_recovery_cone.jpg" class="photo-img">
+    </div>
+    <div class="block block-callout"><div class="block-label">🏠 术后护理</div><p>戴伊丽莎白圈 7-10 天防舔伤口 · 限制剧烈运动 1 周 · 观察伤口红肿渗液 · 母猫术后 10-14 天拆线</p></div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 20: 常见疾病 ===== -->
+<div class="slide lrn-3" id="s20">
+  <div class="sidebar"><div class="tree"><strong>🐱 养猫完全教程</strong><br>├─ 全景认知<br>├─ 品种大观<br>├─ 养护实战<br>│  ├─ ...<br>│  ├─ <b>疾病预防</b> ←<br>│  ├─ 行为解读<br>│  ├─ ...<br>├─ 进阶专题<br>└─ 总结复习</div></div>
+  <div class="main">
+    <h2>🩺 常见疾病与预防</h2>
+    <img src="images/35_healthy_cat_checkup.jpg" class="photo-img" style="max-height:160px;margin-bottom:8px;">
+    <table class="compare-table">
+      <tr><th>疾病</th><th>高发群体</th><th>关键症状</th><th>预防</th></tr>
+      <tr><td>FLUTD 下泌尿道疾病</td><td>公猫 · 干粮为主 · 肥胖</td><td>频繁蹲猫砂 · 尿血 · 惨叫</td><td>湿粮为主 · 多喝水 · 减压</td></tr>
+      <tr><td>猫瘟 (Panleukopenia)</td><td>幼猫 · 未免疫</td><td>呕吐腹泻 · 高烧 · 白细胞骤降</td><td><b>疫苗！</b>致死率 90%</td></tr>
+      <tr><td>FIP 猫传腹</td><td>幼猫 · 多猫环境</td><td>腹水/胸水 · 消瘦 · 持续发烧</td><td>减少应激 · 保持卫生</td></tr>
+      <tr><td>CKD 慢性肾病</td><td>7 岁+老年猫</td><td>多饮多尿 · 消瘦 · 口臭</td><td>每年血检 · 低磷饮食</td></tr>
+      <tr><td>牙周病</td><td>3 岁+ 70% 猫</td><td>口臭 · 牙龈红肿 · 流口水</td><td>定期刷牙 · 每年洗牙</td></tr>
+    </table>
+    <div class="block block-callout"><div class="block-label">🩺 体检频率建议</div><p>幼猫（0-1 岁）：初诊+疫苗时检查 · 成年（1-7 岁）：<b>每年 1 次</b>基础体检 + 血检 · 老年（7 岁+）：<b>每 6 个月 1 次</b>，加做肾功能和甲状腺检查</p></div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 21: 行为解读 ===== -->
+<div class="slide lrn-3" id="s21">
+  <div class="sidebar"><div class="tree"><strong>🐱 养猫完全教程</strong><br>├─ 全景认知<br>├─ 品种大观<br>├─ 养护实战<br>│  ├─ ...<br>│  ├─ 疾病预防<br>│  ├─ <b>行为解读</b> ←<br>│  ├─ 环境丰容<br>├─ 进阶专题<br>└─ 总结复习</div></div>
+  <div class="main">
+    <h2>🧠 猫咪行为深度解读</h2>
+    <div class="photo-2">
+      <div class="photo-card"><img src="images/36_cat_tail_up.jpg"><div class="cap"><b>尾巴直立</b> = 开心问候 · 尾巴炸毛 = 恐惧 · 尾尖轻摆 = 专注</div></div>
+      <div class="photo-card"><img src="images/37_cat_kneading.jpg"><div class="cap"><b>踩奶</b> = 极度舒适（幼猫吃奶记忆）· 是最高信任的表达</div></div>
+    </div>
+    <table class="compare-table">
+      <tr><th>行为</th><th>含义</th><th>应对</th></tr>
+      <tr><td>🐱 呼噜呼噜</td><td>通常 = 舒服。也可能 = 疼痛/焦虑（自愈机制）</td><td>结合场景判断</td></tr>
+      <tr><td>🔪 磨爪子</td><td>标记领地（视觉+气味）+ 去旧角质 + 拉伸肌肉</td><td>提供多处猫抓板，不惩罚</td></tr>
+      <tr><td>😌 慢眨眼</td><td>「猫之吻」— 信任和放松的最高表达</td><td>回以慢眨眼 = 我爱你也</td></tr>
+      <tr><td>🙃 露肚皮</td><td>信任展示 · <strong>不是邀请摸肚子！</strong></td><td>摸了大概率被咬——那是防御反射</td></tr>
+      <tr><td>😾 哈气/呜呜</td><td>恐惧/警告——「退后！」</td><td>给空间，不要强行靠近</td></tr>
+      <tr><td>🏃 夜间狂奔</td><td>能量释放（Zoomies）——完全正常</td><td>睡前陪玩 15 分钟耗尽能量</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ===== SLIDE 22: 环境丰容 ===== -->
+<div class="slide lrn-3" id="s22">
+  <div class="sidebar"><div class="tree"><strong>🐱 养猫完全教程</strong><br>├─ 全景认知<br>├─ 品种大观<br>├─ 养护实战<br>│  ├─ ...<br>│  ├─ <b>环境丰容</b> ←<br>├─ 进阶专题<br>└─ 总结复习</div></div>
+  <div class="main">
+    <h2>🎮 环境丰容 — 让猫快乐地忙起来</h2>
+    <div class="photo-2">
+      <div class="photo-card"><img src="images/38_cat_tree_playing.jpg"><div class="cap"><b>垂直空间</b>：猫爬架、墙上搁板、窗台吊床 — 猫是三维动物</div></div>
+      <div class="photo-card"><img src="images/39_catnip_enrichment.jpg"><div class="cap"><b>互动玩具</b>：逗猫棒、电动老鼠、益智喂食器、猫隧道</div></div>
+    </div>
+    <div class="block block-compare"><div class="block-label">🌿 猫草 vs 猫薄荷 vs 木天蓼</div>
+    <table class="compare-table"><tr><th></th><th>猫草 (Cat Grass)</th><th>猫薄荷 (Catnip)</th><th>木天蓼 (Silver Vine)</th></tr>
+    <tr><td>作用</td><td>助排毛球 · 补充纤维</td><td>兴奋/放松 (5-15 分钟)</td><td>更强烈兴奋 (比猫薄荷强)</td></tr>
+    <tr><td>反应率</td><td>大多数猫会吃</td><td>~50-70% 猫有反应</td><td>~80% 猫有反应</td></tr>
+    <tr><td>频率</td><td>随时提供</td><td>每周 1-2 次</td><td>每周 1-2 次</td></tr></table></div>
+    <div class="block block-callout"><div class="block-label">⏰ 每日丰容时间表</div><p>早上：喂食前逗猫棒 10 分钟（模拟狩猎→进食→睡觉）· 白天：益智玩具+窗外观鸟 · 晚上：睡前 15 分钟高强度互动 → 一觉到天亮 🌙</p></div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 23: 品种养护映射 ===== -->
+<div class="slide lrn-2" id="s23">
+  <div class="sidebar"><div class="tree"><strong>🐱 养猫完全教程</strong><br>├─ 全景认知<br>├─ 品种大观<br>├─ 养护实战<br>├─ 进阶专题<br>│  ├─ <b>品种养护</b> ←<br>│  ├─ 多猫家庭<br>│  ├─ 应急处理<br>│  ├─ 出门旅行<br>│  ├─ 新中式养猫<br>│  └─ 新手误区<br>└─ 总结复习</div></div>
+  <div class="main">
+    <h2>🔗 品种 → 养护需求映射</h2>
+    <img src="images/40_longhair_grooming.jpg" class="photo-img" style="max-height:180px;margin-bottom:8px;">
+    <table class="compare-table">
+      <tr><th>品种特征</th><th>代表品种</th><th>特殊护理要求</th></tr>
+      <tr><td>扁脸 (Brachycephalic)</td><td>波斯 · 异短</td><td>每日擦眼泪 · 注意呼吸道 · 夏天防中暑</td></tr>
+      <tr><td>长毛 / 双层被毛</td><td>波斯 · 缅因 · 挪威</td><td>每日梳毛 · 换毛季防毛球症 · 必要时剃卫生毛</td></tr>
+      <tr><td>无毛 / 卷毛</td><td>斯芬克斯 · 德文</td><td>斯芬克斯每周洗澡 · 冬天穿衣服 · 德文耳朵勤清理</td></tr>
+      <tr><td>高能量品种</td><td>孟加拉 · 阿比 · 暹罗</td><td>每天 ≥1 小时高强度互动 · 益智玩具 · 考虑遛猫</td></tr>
+      <tr><td>遗传病风险品种</td><td>折耳 · 缅因 · 波斯</td><td>折耳→关节X光 · 缅因→心脏超声(HCM) · 波斯→肾脏(PKD)</td></tr>
+      <tr><td>大型品种</td><td>缅因 · 挪威 · 布偶</td><td>猫砂盆/猫窝加大号 · 食量是普通猫 1.5-2 倍</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ===== SLIDE 24: 多猫家庭 ===== -->
+<div class="slide lrn-3" id="s24">
+  <div class="sidebar"><div class="tree"><strong>🐱 养猫完全教程</strong><br>├─ 全景认知<br>├─ 品种大观<br>├─ 养护实战<br>├─ 进阶专题<br>│  ├─ 品种养护<br>│  ├─ <b>多猫家庭</b> ←<br>│  ├─ 应急处理<br>│  ├─ 出门旅行<br>│  ├─ 新中式养猫<br>│  └─ 新手误区<br>└─ 总结复习</div></div>
+  <div class="main">
+    <h2>🏠 多猫家庭指南</h2>
+    <div class="photo-2x1">
+      <img src="images/41_multi_cat_home.jpg" class="photo-img">
+      <div>
+        <div class="block block-steps"><div class="block-label">🐱 引入新猫四步法</div>
+        <p>1️⃣ <b>隔离期</b> (1-2 周)：新猫单独房间，只闻气味不见面<br>2️⃣ <b>交换气味</b>：交换睡过的毯子/玩具<br>3️⃣ <b>视觉接触</b>：门缝/纱窗相见，同时喂零食<br>4️⃣ <b>面对面</b>：短时间监督接触，逐步延长</p></div>
+        <div class="block block-callout"><div class="block-label">📐 N+1 法则</div><p>猫砂盆 = 猫数 + 1 · 食碗 = 猫数 + 1 · 水碗 = 猫数 + 1 · 猫窝/躲藏处 = 猫数 + 1<br>资源分散放置，避免竞争冲突。</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 25: 应急处理 ===== -->
+<div class="slide lrn-3" id="s25">
+  <div class="sidebar"><div class="tree"><strong>🐱 养猫完全教程</strong><br>├─ 全景认知<br>├─ 品种大观<br>├─ 养护实战<br>├─ 进阶专题<br>│  ├─ ...<br>│  ├─ <b>应急处理</b> ←<br>│  ├─ ...<br>└─ 总结复习</div></div>
+  <div class="main">
+    <h2>🚨 猫咪应急处理速查</h2>
+    <div class="photo-2x1">
+      <div>
+        <table class="compare-table">
+          <tr><th>紧急情况</th><th>第一时间做什么</th><th>⚠️ 不要做</th></tr>
+          <tr><td>🤢 中毒</td><td>记下毒物+量+时间 → 立刻送医<br>不要自行催吐！</td><td>喂牛奶、喂盐催吐</td></tr>
+          <tr><td>🩸 外伤出血</td><td>干净纱布按压止血 5-10 分钟 → 送医</td><td>用酒精、碘酒（刺激太强）</td></tr>
+          <tr><td>😤 呼吸困难</td><td>保持冷静 · 减少搬动 · 立刻送医</td><td>强行灌水/喂食</td></tr>
+          <tr><td>🔥 中暑</td><td>移到阴凉处 · 湿毛巾擦身 · 风扇吹</td><td>冰水直接浇（血管骤缩）</td></tr>
+          <tr><td>🦴 高处坠落</td><td>不要移动！用硬板抬猫 → 立刻送医</td><td>抱起就跑（加重脊柱伤）</td></tr>
+          <tr><td>😵 癫痫</td><td>移开危险物 · 暗化房间 · 记持续时间</td><td>把手塞进猫嘴里</td></tr>
+        </table>
+      </div>
+      <img src="images/43_first_aid_kit.jpg" class="photo-img">
+    </div>
+    <div class="block block-callout"><div class="block-label">📞 常备</div><p>24 小时宠物医院电话存入手机 · 宠物急救箱（止血粉+纱布+伊丽莎白圈+体温计）· 动物中毒控制中心电话</p></div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 26: 出门与旅行 ===== -->
+<div class="slide lrn-3" id="s26">
+  <div class="sidebar"><div class="tree"><strong>🐱 养猫完全教程</strong><br>├─ 全景认知<br>├─ 品种大观<br>├─ 养护实战<br>├─ 进阶专题<br>│  ├─ ...<br>│  ├─ <b>出门旅行</b> ←<br>│  ├─ ...<br>└─ 总结复习</div></div>
+  <div class="main">
+    <h2>✈️ 出门与旅行</h2>
+    <div class="photo-2">
+      <div class="photo-card"><img src="images/44_cat_carrier_travel.jpg"><div class="cap"><b>航空箱</b>：日常敞开当猫窝 → 出门时猫不恐惧</div></div>
+      <div class="photo-card"><img src="images/45_cat_boarding.jpg"><div class="cap"><b>寄养</b>：优先上门喂养 > 家庭寄养 > 宠物店</div></div>
+    </div>
+    <div class="block block-compare"><div class="block-label">📋 三种方案对比</div>
+    <table class="compare-table"><tr><th></th><th>上门喂养</th><th>家庭寄养</th><th>宠物店寄养</th></tr>
+    <tr><td>猫的压力</td><td>⭐⭐⭐⭐⭐ 最低</td><td>⭐⭐⭐ 中</td><td>⭐ 最高</td></tr>
+    <tr><td>费用/天</td><td>50-100 元</td><td>40-80 元</td><td>30-60 元</td></tr>
+    <tr><td>疾病风险</td><td>无</td><td>低</td><td>中-高</td></tr>
+    <tr><td>适合</td><td>≤5 天短途</td><td>≤2 周</td><td>无选择时</td></tr></table></div>
+    <div class="block block-callout"><div class="block-label">💡 最佳方案</div><p>3 天以内：留足粮水+多个猫砂盆+摄像头监控。3-7 天：上门喂养。7 天以上：靠谱寄养。猫是<strong>领地动物</strong>，在自己家最安心，尽量不让猫换环境。</p></div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 27: 新中式养猫 ===== -->
+<div class="slide lrn-3" id="s27">
+  <div class="sidebar"><div class="tree"><strong>🐱 养猫完全教程</strong><br>├─ 全景认知<br>├─ 品种大观<br>├─ 养护实战<br>├─ 进阶专题<br>│  ├─ ...<br>│  ├─ <b>新中式养猫</b> ←<br>│  └─ ...<br>└─ 总结复习</div></div>
+  <div class="main">
+    <h2>🏮 新中式养猫 — 传统智慧 + 现代科学</h2>
+    <div class="photo-2">
+      <div class="photo-card"><img src="images/46_chinese_style_cat_tree.jpg"><div class="cap"><b>新中式猫家具</b>：实木榫卯猫爬架、中式窗棂猫窝</div></div>
+      <div class="photo-card"><img src="images/47_chinese_ceramic_bowl.jpg"><div class="cap"><b>中式猫碗</b>：青花瓷/汝窑风陶瓷碗 — 颜值与健康兼得</div></div>
+    </div>
+    <div class="block block-def"><div class="block-label">🎋 什么是「新中式养猫」</div>
+    <p>将中国传统猫文化（宋代聘猫礼、陆游猫诗、猫蝶图吉祥寓意）与<strong>现代兽医学、营养学、行为学</strong>相结合。不是复古，是<strong>文化自信的科学养猫</strong>。</p></div>
+    <div class="block block-example"><div class="block-label">🇨🇳 现代中国猫经济</div>
+    <p>中国宠物市场规模 <strong>3000 亿+ 元</strong>（2024），预计 2027 年达 4000 亿。智能猫砂盆、自动喂食器、宠物保险等新品类爆发。「领养代替购买」理念日益普及，科学养猫成为新一代猫主人的共识。</p></div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 28: 新手误区 ===== -->
+<div class="slide lrn-3" id="s28">
+  <div class="sidebar"><div class="tree"><strong>🐱 养猫完全教程</strong><br>├─ 全景认知<br>├─ 品种大观<br>├─ 养护实战<br>├─ 进阶专题<br>│  ├─ ...<br>│  ├─ <b>新手误区</b> ←<br>└─ 总结复习</div></div>
+  <div class="main">
+    <h2>❌ 新手常见误区 Top 10</h2>
+    <div class="photo-2x1">
+      <div>
+        <div class="block block-counter">
+          <ol>
+            <li><b>「猫喝牛奶」</b>→ ❌ 多数成年猫乳糖不耐受，喝了拉肚子</li>
+            <li><b>「猫吃鱼就行」</b>→ ❌ 单一食物营养严重不均衡</li>
+            <li><b>「猫不听话就打」</b>→ ❌ 猫不理解惩罚，只会恐惧你</li>
+            <li><b>「绝育太残忍」</b>→ ❌ 不绝育更残忍——生殖系统疾病+无序繁殖</li>
+            <li><b>「猫自己会照顾自己」</b>→ ❌ 每天需要互动+健康监测</li>
+            <li><b>「猫摔不死」</b>→ ❌ 2-6 层楼反而最危险（来不及翻转）</li>
+            <li><b>「干粮就够了」</b>→ ❌ 长期干粮为主 → 慢性脱水 → 肾病</li>
+            <li><b>「猫不喜欢出门就不打疫苗」</b>→ ❌ 病毒可通过人/物带入</li>
+            <li><b>「猫呼噜就是舒服」</b>→ ⚠️ 也可能在自我疗伤/缓解疼痛</li>
+            <li><b>「给猫吃素」</b>→ ☠️ 猫是专性肉食动物，纯素会致死</li>
+          </ol>
+        </div>
+      </div>
+      <img src="images/48_cat_begging_food.jpg" class="photo-img">
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 29: 复习总结 ===== -->
+<div class="slide lrn-review" id="s29">
+  <div class="sidebar"><div class="tree"><strong>🐱 养猫完全教程</strong><br>├─ ...<br>├─ 进阶专题<br>└─ 总结复习<br>&emsp;├─ <b>知识汇总</b> ←<br>&emsp;└─ 自测 FAQ</div></div>
+  <div class="main">
+    <h2>📚 全知识点汇总</h2>
+    <div class="block block-summary">
+      <table class="summary-table">
+        <tr><th>模块</th><th>核心要点</th><th>关键数字</th></tr>
+        <tr><td>🕰️ 猫的历史</td><td>9500 年前驯化 · 唐代传入中国 · 宋代聘猫礼 · 陆游猫奴</td><td>20+ 首咏猫诗</td></tr>
+        <tr><td>🔬 生理特征</td><td>专性肉食动物 · 夜视 6-8x · 呼噜 20-140Hz 有治疗作用</td><td>寿命 12-18 年</td></tr>
+        <tr><td>🐱 品种概览</td><td>16 纯种 + 4 田园 · CFA 45 / TICA 73 种认证</td><td>难度 1-3 级</td></tr>
+        <tr><td>🍖 猫粮</td><td>干/湿/生/冻干 4 大类 · 湿粮 ≥50% 最优 · 看配料表第一位</td><td>碳水 <10% 理想</td></tr>
+        <tr><td>🚽 猫砂</td><td>5 种主流 · 豆腐砂新手首选 · N+1 法则</td><td>月 20-80 元</td></tr>
+        <tr><td>💧 饮水</td><td>40-60ml/kg/天 · 流动水 > 静态水 · 湿粮补水</td><td>4kg 猫 ≈ 200ml/天</td></tr>
+        <tr><td>💉 疫苗</td><td>FVRCP 猫三联 · 6-8 周首免 · 3 针 + 每年加强</td><td>核心+狂犬</td></tr>
+        <tr><td>🏥 绝育</td><td>公 6-8 月 · 母 5-6 月 · 寿命+2-3 年</td><td>母猫子宫蓄脓 ↓100%</td></tr>
+        <tr><td>🦷 护理</td><td>梳毛 · 剪指甲 · 刷牙 · 3 岁 70% 牙周病</td><td>刷牙 2-3 次/周</td></tr>
+        <tr><td>🧠 行为</td><td>尾巴直立=开心 · 慢眨眼=爱 · 露肚皮≠求摸 · 踩奶=信任</td><td>8 种核心行为</td></tr>
+        <tr><td>🚫 禁忌</td><td>巧克力/洋葱/葡萄/百合花/酒精/咖啡因 → 全部剧毒</td><td>9+ 种有毒物</td></tr>
+        <tr><td>🎋 新中式</td><td>传统猫文化 + 现代科学 · 3000 亿+ 市场 · 领养代替购买</td><td>2027 年→4000 亿</td></tr>
+      </table>
+    </div>
+    <h3 style="margin-top:16px;">🐱 20 品种速查</h3>
+    <table class="summary-table">
+      <tr><th>品种</th><th>难度</th><th>品种</th><th>难度</th><th>品种</th><th>难度</th><th>品种</th><th>难度</th></tr>
+      <tr><td>英短</td><td>★</td><td>美短</td><td>★</td><td>暹罗</td><td>★★</td><td>波斯</td><td>★★★</td></tr>
+      <tr><td>缅因</td><td>★★</td><td>布偶</td><td>★★</td><td>孟加拉</td><td>★★★</td><td>斯芬克斯</td><td>★★★</td></tr>
+      <tr><td>折耳</td><td>★★</td><td>俄蓝</td><td>★</td><td>挪威</td><td>★★</td><td>阿比</td><td>★★</td></tr>
+      <tr><td>缅甸</td><td>★★</td><td>东方</td><td>★★</td><td>德文</td><td>★★</td><td>狸花</td><td>★</td></tr>
+      <tr><td>橘猫</td><td>★</td><td>奶牛</td><td>★</td><td>三花</td><td>★</td><td>玳瑁</td><td>★</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ===== SLIDE 30: 自测 FAQ ===== -->
+<div class="slide lrn-review" id="s30">
+  <div class="sidebar"><div class="tree"><strong>🐱 养猫完全教程</strong><br>├─ ...<br>├─ 进阶专题<br>└─ 总结复习<br>&emsp;├─ 知识汇总<br>&emsp;└─ <b>自测 FAQ</b> ←</div></div>
+  <div class="main">
+    <h2>🧪 自测 FAQ（翻转查看答案）</h2>
+    <div class="block block-check">
+      <div class="check-q open" onclick="this.classList.toggle('open')">Q1: 猫是专性肉食动物，这意味着什么？</div>
+      <div class="check-a">猫<b>必须</b>从动物组织获取牛磺酸、花生四烯酸、维生素 A 等营养素，自身无法合成。纯素食会在数周到数月内导致失明、心脏病甚至死亡。</div>
+
+      <div class="check-q open" onclick="this.classList.toggle('open')">Q2: 为什么干粮为主的饮食有害？</div>
+      <div class="check-a">干粮含水量仅 8-10%，猫天生口渴感弱（沙漠祖先），长期干粮喂养导致<b>慢性脱水</b>→ 尿液浓缩 → 泌尿系统疾病（FLUTD）。建议湿粮占 ≥50% 热量。</div>
+
+      <div class="check-q open" onclick="this.classList.toggle('open')">Q3: 猫的最佳绝育年龄和理由是什么？</div>
+      <div class="check-a">公猫 6-8 月龄，母猫 5-6 月龄（首次发情前）。理由：母猫子宫蓄脓发病率 25%（绝育后降至 0%），乳腺癌风险 ↓91%，公猫减少乱尿标记和出走，平均寿命 +2-3 年。</div>
+
+      <div class="check-q open" onclick="this.classList.toggle('open')">Q4: 「N+1 法则」是什么意思？</div>
+      <div class="check-a">猫砂盆/食碗/水碗/猫窝数量 = <b>猫的数量 + 1</b>。例如 2 只猫需要 3 个猫砂盆，分散放置在不同位置，避免资源竞争导致冲突。</div>
+
+      <div class="check-q open" onclick="this.classList.toggle('open')">Q5: 猫露肚皮是邀请你摸它吗？</div>
+      <div class="check-a"><b>不是！</b>露肚皮是最高信任展示，但腹部是猫最脆弱的部位，触碰会触发<b>防御反射</b>——大概率被抓或咬。用脸颊蹭你才是求摸的正确信号。</div>
+
+      <div class="check-q open" onclick="this.classList.toggle('open')">Q6: 哪些常见食物/植物对猫剧毒？</div>
+      <div class="check-a">🍫巧克力、🧅洋葱/大蒜、🍇葡萄/葡萄干、🌸<b>百合花</b>（花粉即可致命！）、🍺酒精、☕咖啡因、🥜夏威夷果。百合是全株剧毒——有猫的家庭<b>绝对不要养</b>。</div>
+
+      <div class="check-q open" onclick="this.classList.toggle('open')">Q7: 如何判断猫是否信任你？</div>
+      <div class="check-a"><b>慢眨眼</b>（猫之吻）→ 回以慢眨眼。踩奶 → 幼猫记忆，最高舒适。尾巴直立迎向你 → 开心的问候。在你身边睡觉 → 绝对信任。</div>
+
+      <div class="check-q open" onclick="this.classList.toggle('open')">Q8: 接新猫回家第一步是什么？</div>
+      <div class="check-a">准备一个<b>安静小房间</b>作为「安全基地」，放好猫砂盆+食水+猫窝。让猫自行探索 2-3 天，不要强行抱或追逐。适应后慢慢开放更多空间。</div>
+
+      <div class="check-q open" onclick="this.classList.toggle('open')">Q9: 新中式养猫的核心是什么？</div>
+      <div class="check-a">将中国传统猫文化（聘猫礼、猫蝶图、传统猫用品美学）与<b>现代兽医学、营养学、行为学</b>相结合。不是复古形式的模仿，而是文化自信+科学精神的融合。核心原则不变：科学喂养、定期体检、终身负责。</div>
+
+      <div class="check-q open" onclick="this.classList.toggle('open')">Q10: 「领养代替购买」的真正意义是什么？</div>
+      <div class="check-a">中国每年数百万只流浪猫等待领养。田园猫体质强健、遗传病少、同样可爱。领养不是「退而求其次」，而是<b>给一个生命第二次机会</b>。品种不重要，爱才重要。</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- .deck -->
+
+<script src="../../assets/katex/katex.min.js"></script>
+<script src="../../assets/katex/auto-render.min.js"></script>
+<script src="../../assets/runtime.js"></script>
+<script>
+(function(){if(typeof renderMathInElement!=="undefined"){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:true},{left:"$",right:"$",display:false}],throwOnError:false});}})();
+</script>
+</body>
+</html>
