@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="learning-light" data-themes="learning-light,learning-dark,learning-print" data-theme-base="../../assets/themes/">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>建筑艺术：从古典到新中式 — 世界建筑流派全览</title>
+<link rel="stylesheet" href="../../assets/fonts.css">
+<link rel="stylesheet" href="../../assets/base.css">
+<link rel="stylesheet" id="theme-link" href="../../assets/themes/learning-light.css">
+<link rel="stylesheet" href="../../assets/themes/learning-print.css" media="print">
+<link rel="stylesheet" href="../../assets/katex/katex.min.css">
+<style>
+  /* ── 建筑课件专用 ── */
+  .photo-2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+  .photo-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin:16px 0; }
+  .photo-2x1 { display:grid; grid-template-columns:2fr 1fr; gap:16px; margin:16px 0; }
+  .photo-img { width:100%; border-radius:var(--radius); object-fit:cover; aspect-ratio:16/9; }
+  .photo-caption { font-size:12px; color:var(--text-3); text-align:center; margin-top:6px; }
+  .photo-card { background:var(--surface); border-radius:var(--radius); overflow:hidden; border:1px solid var(--border); }
+  .photo-card img { width:100%; aspect-ratio:16/9; object-fit:cover; display:block; }
+  .photo-card .cap { padding:8px 12px; font-size:12px; color:var(--text-2); }
+  .style-tag { display:inline-block; padding:3px 12px; border-radius:99px; font-size:11px; font-weight:600; }
+  .style-tag.classical { background:rgba(212,175,55,.15); color:#b8960f; }
+  .style-tag.gothic { background:rgba(139,0,0,.1); color:#8b0000; }
+  .style-tag.renaissance { background:rgba(180,130,60,.15); color:#a07030; }
+  .style-tag.baroque { background:rgba(184,115,51,.15); color:#b87333; }
+  .style-tag.neoclassical { background:rgba(100,120,140,.15); color:#5a6e82; }
+  .style-tag.artnouveau { background:rgba(80,180,120,.15); color:#3a8a50; }
+  .style-tag.artdeco { background:rgba(200,160,40,.15); color:#b09020; }
+  .style-tag.modernism { background:rgba(80,80,80,.1); color:#505050; }
+  .style-tag.brutalism { background:rgba(120,120,120,.15); color:#6a6a6a; }
+  .style-tag.postmodern { background:rgba(220,80,140,.15); color:#c04080; }
+  .style-tag.decon { background:rgba(100,80,200,.15); color:#5a40c0; }
+  .style-tag.hightech { background:rgba(60,140,200,.15); color:#3888c0; }
+  .style-tag.minimalism { background:rgba(150,150,150,.12); color:#7a7a7a; }
+  .style-tag.organic { background:rgba(80,140,60,.15); color:#4a8030; }
+  .style-tag.newchinese { background:rgba(180,60,40,.15); color:#a03020; }
+  .timeline-bar { display:flex; align-items:center; margin:8px 0; gap:0; }
+  .timeline-dot { width:12px; height:12px; border-radius:50%; flex-shrink:0; background:var(--accent); }
+  .timeline-line { flex:1; height:2px; background:var(--border-strong); }
+  .timeline-label { font-size:11px; color:var(--text-3); white-space:nowrap; padding:0 8px; }
+  .era { font-weight:700; color:var(--accent); }
+  @media print {
+    .photo-2, .photo-3, .photo-2x1 { break-inside:avoid; }
+    .photo-card { break-inside:avoid; }
+    /* Force A4 landscape for PDF */
+    @page { size: A4 landscape; margin: 0; }
+    html, body { margin: 0; padding: 0; width: 100%; height: 100%; }
+    .sidebar { display: none !important; }
+    .main { margin-left: 0; width: 100%; }
+    .deck { max-width: 100%; margin: 0; padding: 0; }
+    .slide { page-break-after: always; padding: 24px 36px; font-size: 11pt; max-height: 595pt; overflow: hidden !important; contain: layout paint; }
+    .slide h2 { font-size: 16pt !important; margin: 4px 0 !important; }
+    .slide h1 { font-size: 22pt !important; }
+    .slide .block { padding: 8px 12px !important; margin: 6px 0 !important; }
+    .slide .photo-2, .slide .photo-3 { gap: 8px !important; margin: 8px 0 !important; }
+    .slide .photo-2 .photo-card:nth-child(2),
+    .slide .photo-3 .photo-card:nth-child(2),
+    .slide .photo-3 .photo-card:nth-child(3),
+    .slide .photo-2x1 > div { display: none !important; }
+    .slide .photo-2 .photo-card:first-child,
+    .slide .photo-3 .photo-card:first-child { grid-column: 1 / -1; }
+    .slide .photo-img { aspect-ratio: 16/9; max-height: 200pt; object-fit: cover; }
+    .slide .compare-table th, .slide .compare-table td { padding: 3px 6px !important; font-size: 9pt !important; }
+    .slide .summary-table th, .slide .summary-table td { padding: 3px 6px !important; font-size: 8pt !important; }
+    .slide .block-label { font-size: 9pt !important; }
+    .slide .def-text { font-size: 10pt !important; }
+    .slide .cap { font-size: 9pt !important; }
+    .slide p { margin: 3px 0 !important; line-height: 1.35 !important; }
+    .slide .kicker { font-size: 10pt !important; margin-bottom: 2px !important; }
+    .slide .cover-meta { margin-top: 8px !important; }
+    .slide .lede { font-size: 12pt !important; }
+    .slide.lrn-review { page-break-inside: auto; break-inside: auto; }
+    .slide:last-child { page-break-after: auto; }
+    .progress-bar, .progress-dots, .notes-overlay, .slide-number { display: none !important; }
+    .overview, .overview .slide, .overview * { display: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ SIDEBAR ═══════════ -->
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <div class="course-title">建筑艺术</div>
+    <div class="course-subtitle">世界建筑流派全览</div>
+  </div>
+  <nav class="sidebar-toc" id="toc">
+    <a class="sidebar-toc-item" href="#cover"><span class="toc-num">1</span>章封面</a>
+    <a class="sidebar-toc-item" href="#s1"><span class="toc-num">2</span>建筑流派时间线</a>
+    <a class="sidebar-toc-item" href="#s2"><span class="toc-num">3</span>古典建筑 · 柱式与比例</a>
+    <a class="sidebar-toc-item" href="#s3"><span class="toc-num">4</span>古典建筑 · 罗马工程</a>
+    <a class="sidebar-toc-item" href="#s4"><span class="toc-num">5</span>哥特式 · 飞扶壁</a>
+    <a class="sidebar-toc-item" href="#s5"><span class="toc-num">6</span>哥特式 · 光的圣殿</a>
+    <a class="sidebar-toc-item" href="#s6"><span class="toc-num">7</span>文艺复兴 · 人文回归</a>
+    <a class="sidebar-toc-item" href="#s7"><span class="toc-num">8</span>文艺复兴 · 圆顶革命</a>
+    <a class="sidebar-toc-item" href="#s8"><span class="toc-num">9</span>巴洛克 · 戏剧光影</a>
+    <a class="sidebar-toc-item" href="#s9"><span class="toc-num">10</span>巴洛克 · 动感装饰</a>
+    <a class="sidebar-toc-item" href="#s10"><span class="toc-num">11</span>新古典主义</a>
+    <a class="sidebar-toc-item" href="#s11"><span class="toc-num">12</span>新艺术运动</a>
+    <a class="sidebar-toc-item" href="#s12"><span class="toc-num">13</span>装饰艺术</a>
+    <a class="sidebar-toc-item" href="#s13"><span class="toc-num">14</span>现代主义 · 功能至上</a>
+    <a class="sidebar-toc-item" href="#s14"><span class="toc-num">15</span>现代主义 · 包豪斯</a>
+    <a class="sidebar-toc-item" href="#s15"><span class="toc-num">16</span>粗野主义</a>
+    <a class="sidebar-toc-item" href="#s16"><span class="toc-num">17</span>后现代主义 · 戏谑</a>
+    <a class="sidebar-toc-item" href="#s17"><span class="toc-num">18</span>后现代主义 · 多元</a>
+    <a class="sidebar-toc-item" href="#s18"><span class="toc-num">19</span>解构主义</a>
+    <a class="sidebar-toc-item" href="#s19"><span class="toc-num">20</span>高技派</a>
+    <a class="sidebar-toc-item" href="#s20"><span class="toc-num">21</span>极简主义</a>
+    <a class="sidebar-toc-item" href="#s21"><span class="toc-num">22</span>有机建筑</a>
+    <a class="sidebar-toc-item" href="#s22"><span class="toc-num">23</span>新中式 · 传统转译</a>
+    <a class="sidebar-toc-item" href="#s23"><span class="toc-num">24</span>新中式 · 材料空间</a>
+    <a class="sidebar-toc-item" href="#s24"><span class="toc-num">25</span>新中式 · 园林新解</a>
+    <a class="sidebar-toc-item" href="#s25"><span class="toc-num">26</span>流派全景对比</a>
+    <a class="sidebar-toc-item" href="#s26"><span class="toc-num">27</span>要素维度横评</a>
+    <a class="sidebar-toc-item" href="#s27"><span class="toc-num">28</span>如何读懂一栋建筑</a>
+    <a class="sidebar-toc-item" href="#review"><span class="toc-num">29</span>章末复习</a>
+    <a class="sidebar-toc-item" href="#end"><span class="toc-num">30</span>结束页</a>
+  </nav>
+  <div class="sidebar-footer">
+    <span>🏛️ 流派速查</span>
+    <div class="formula-quick">
+      古典 → 哥特 → 文艺复兴 → 巴洛克<br>
+      新古典 → 新艺术 → Art Deco<br>
+      现代主义 → 粗野 → 后现代<br>
+      解构 → 高技 → 极简 → 有机<br>
+      <strong>新中式</strong>
+    </div>
+  </div>
+</aside>
+
+<!-- ═══════════ MAIN ═══════════ -->
+<main class="main">
+<div class="deck">
+
+<!-- ═══ 1. COVER ═══ -->
+<section class="slide cover" data-title="建筑艺术" data-chapter="cover" id="cover">
+  <p class="kicker anim-fade-up">建筑艺术史 · 从古典到当代</p>
+  <h1 class="h1 anim-fade-up">建筑艺术</h1>
+  <p class="lede anim-fade-up">探索两千年的建筑流派——从古希腊的柱式比例，到当代新中式的东方气韵。每个时代都在回答同一个问题：<strong>建筑应该是什么？</strong></p>
+  <div class="cover-meta">
+    <div class="row" style="justify-content:center;gap:24px;flex-wrap:wrap">
+      <span>🏛️ 15 个建筑流派</span>
+      <span>⏱ 约 45 分钟</span>
+      <span>难度: <span class="difficulty"><span class="star on">★</span><span class="star on">★</span><span class="star">★</span></span></span>
+    </div>
+    <div class="row mt-m" style="justify-content:center;gap:12px;flex-wrap:wrap">
+      <span class="pill pill-accent" style="font-size:11px">适合所有人</span>
+      <span class="pill" style="font-size:11px">→ 关联: 艺术史·设计·城市</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 2. TIMELINE OVERVIEW ═══ -->
+<section class="slide" data-title="建筑流派时间线" data-chapter="s1" id="s1">
+  <p class="kicker" style="color:var(--lrn-timeline)">TIMELINE · 全局视野</p>
+  <h2 class="h2">两千年的建筑流派演进</h2>
+  <div class="block block-diagram mt-m">
+    <div style="font-size:12px;line-height:2.2">
+      <div class="timeline-bar"><span class="timeline-label" style="min-width:80px"><span class="era">BC 5C</span></span><span class="timeline-dot"></span><span class="timeline-line"></span><span style="font-weight:700;padding:0 8px">古典建筑</span><span class="timeline-line"></span></div>
+      <div class="timeline-bar"><span class="timeline-label" style="min-width:80px"><span class="era">12-16C</span></span><span class="timeline-dot"></span><span class="timeline-line"></span><span style="font-weight:700;padding:0 8px">哥特式</span><span class="timeline-line"></span></div>
+      <div class="timeline-bar"><span class="timeline-label" style="min-width:80px"><span class="era">15-16C</span></span><span class="timeline-dot"></span><span class="timeline-line"></span><span style="font-weight:700;padding:0 8px">文艺复兴</span><span class="timeline-line"></span></div>
+      <div class="timeline-bar"><span class="timeline-label" style="min-width:80px"><span class="era">17-18C</span></span><span class="timeline-dot"></span><span class="timeline-line"></span><span style="font-weight:700;padding:0 8px">巴洛克</span><span class="timeline-line"></span></div>
+      <div class="timeline-bar"><span class="timeline-label" style="min-width:80px"><span class="era">18-19C</span></span><span class="timeline-dot"></span><span class="timeline-line"></span><span style="font-weight:700;padding:0 8px">新古典主义</span><span class="timeline-line"></span></div>
+      <div class="timeline-bar"><span class="timeline-label" style="min-width:80px"><span class="era">1890-1910</span></span><span class="timeline-dot"></span><span class="timeline-line"></span><span style="font-weight:700;padding:0 8px">新艺术运动</span><span class="timeline-line"></span></div>
+      <div class="timeline-bar"><span class="timeline-label" style="min-width:80px"><span class="era">1920-40</span></span><span class="timeline-dot"></span><span class="timeline-line"></span><span style="font-weight:700;padding:0 8px">装饰艺术</span><span class="timeline-line"></span></div>
+      <div class="timeline-bar"><span class="timeline-label" style="min-width:80px"><span class="era">1920-60</span></span><span class="timeline-dot"></span><span class="timeline-line"></span><span style="font-weight:700;padding:0 8px">现代主义</span><span class="timeline-line"></span></div>
+      <div class="timeline-bar"><span class="timeline-label" style="min-width:80px"><span class="era">1950-70</span></span><span class="timeline-dot"></span><span class="timeline-line"></span><span style="font-weight:700;padding:0 8px">粗野主义</span><span class="timeline-line"></span></div>
+      <div class="timeline-bar"><span class="timeline-label" style="min-width:80px"><span class="era">1970-90</span></span><span class="timeline-dot"></span><span class="timeline-line"></span><span style="font-weight:700;padding:0 8px">后现代主义</span><span class="timeline-line"></span></div>
+      <div class="timeline-bar"><span class="timeline-label" style="min-width:80px"><span class="era">1980-</span></span><span class="timeline-dot"></span><span class="timeline-line"></span><span style="font-weight:700;padding:0 8px">解构主义</span><span class="timeline-line"></span></div>
+      <div class="timeline-bar"><span class="timeline-label" style="min-width:80px"><span class="era">1970-</span></span><span class="timeline-dot"></span><span class="timeline-line"></span><span style="font-weight:700;padding:0 8px">高技派</span><span class="timeline-line"></span></div>
+      <div class="timeline-bar"><span class="timeline-label" style="min-width:80px"><span class="era">1960-</span></span><span class="timeline-dot"></span><span class="timeline-line"></span><span style="font-weight:700;padding:0 8px">极简主义</span><span class="timeline-line"></span></div>
+      <div class="timeline-bar"><span class="timeline-label" style="min-width:80px"><span class="era">1900-</span></span><span class="timeline-dot"></span><span class="timeline-line"></span><span style="font-weight:700;padding:0 8px">有机建筑</span><span class="timeline-line"></span></div>
+      <div class="timeline-bar"><span class="timeline-label" style="min-width:80px"><span class="era">2000-</span></span><span class="timeline-dot"></span><span class="timeline-line"></span><span style="font-weight:700;padding:0 8px;color:var(--bad)">新中式</span><span class="timeline-line"></span></div>
+    </div>
+  </div>
+  <div class="block block-callout info mt-m">
+    <p><span class="callout-icon">🔑</span> <strong>关键洞察：</strong>每个新流派的诞生，本质上都是对前一流派的反叛——或对技术变革的回应。建筑史就是一部"否定之否定"的演进史。</p>
+  </div>
+</section>
+
+<!-- ═══ 3. CLASSICAL 1: 柱式 ═══ -->
+<section class="slide" data-title="古典建筑 · 柱式与比例" data-chapter="s2" id="s2">
+  <p class="kicker" style="color:var(--lrn-what)">CLASSICAL · 古希腊</p>
+  <h2 class="h2">古典建筑：柱式——西方建筑的"语法"</h2>
+  <div class="photo-2 mt-m">
+    <div class="photo-card"><img src="images/01_parthenon_ext.jpg" alt="帕特农神庙"><div class="cap">帕特农神庙 · 雅典卫城 — 多立克柱式的巅峰</div></div>
+    <div class="photo-card"><img src="images/01_parthenon_detail.jpg" alt="多立克柱式细节"><div class="cap">多立克柱头与楣梁 — 简洁有力的比例关系</div></div>
+  </div>
+  <div class="grid g2 mt-m">
+    <div class="block block-def">
+      <span class="block-label">定义</span>
+      <div class="term">柱式 (Order)</div>
+      <div class="def-text">古希腊建筑的核心"语法"——规定了柱子、柱头、檐部的<strong>固定比例关系</strong>。三种柱式：多立克（雄壮）、爱奥尼（优雅）、科林斯（华丽）。</div>
+    </div>
+    <div class="block block-motivation">
+      <span class="block-label">为什么重要</span>
+      <p>柱式是西方建筑 2000 年的"共同语言"。从罗马人到杰斐逊，后来的建筑师都通过<strong>引用或变形柱式</strong>来表达自己的立场。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 4. CLASSICAL 2: 罗马工程 ═══ -->
+<section class="slide" data-title="古典建筑 · 拱券与穹顶" data-chapter="s3" id="s3">
+  <p class="kicker" style="color:var(--lrn-what)">CLASSICAL · 古罗马</p>
+  <h2 class="h2">罗马工程：拱券、穹顶——空间的解放</h2>
+  <div class="photo-2 mt-m">
+    <div class="photo-card"><img src="images/01_colosseum_ext.jpg" alt="罗马斗兽场"><div class="cap">罗马斗兽场 — 拱券叠加的完美系统</div></div>
+    <div class="photo-card"><img src="images/01_pantheon_int.jpg" alt="万神殿内部"><div class="cap">万神殿穹顶 — 直径43m的混凝土奇迹，中央天窗</div></div>
+  </div>
+  <div class="block block-compare mt-m">
+    <span class="block-label">希腊 vs 罗马</span>
+    <table class="compare-table">
+      <tr><th></th><th>古希腊</th><th>古罗马</th></tr>
+      <tr><td>核心结构</td><td>梁柱体系（柱+横梁）</td><td>拱券 + 穹顶（混凝土）</td></tr>
+      <tr><td>空间效果</td><td>外部优先，开放明亮</td><td>内部空间宏大，光线戏剧化</td></tr>
+      <tr><td>材料</td><td>大理石</td><td>混凝土（opus caementicium）</td></tr>
+      <tr><td>代表</td><td>帕特农神庙</td><td>万神殿 · 斗兽场 · 引水渠</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ═══ 5. GOTHIC 1 ═══ -->
+<section class="slide" data-title="哥特式 · 飞扶壁与尖拱" data-chapter="s4" id="s4">
+  <p class="kicker" style="color:var(--lrn-what)">GOTHIC · 12-16世纪</p>
+  <h2 class="h2">哥特式：向上生长——飞扶壁与尖拱的力学革命</h2>
+  <div class="photo-3 mt-m">
+    <div class="photo-card"><img src="images/02_notre_dame_ext.jpg" alt="巴黎圣母院"><div class="cap">巴黎圣母院 · 飞扶壁</div></div>
+    <div class="photo-card"><img src="images/02_gothic_vault.jpg" alt="哥特拱顶"><div class="cap">扇形拱顶 · 向上生长的石骨</div></div>
+    <div class="photo-card"><img src="images/02_chartres_window.jpg" alt="沙特尔玫瑰窗"><div class="cap">沙特尔大教堂 · 玫瑰花窗</div></div>
+  </div>
+  <div class="block block-callout info mt-m">
+    <p><span class="callout-icon">⚡</span> <strong>技术突破：</strong>飞扶壁把屋顶<em>侧推力</em>传导到外部支柱 → 墙体不再承重 → 可以开超大窗户。哥特教堂的本质是<strong>石头的骨架+光的填充</strong>。</p>
+  </div>
+</section>
+
+<!-- ═══ 6. GOTHIC 2 ═══ -->
+<section class="slide" data-title="哥特式 · 光的圣殿" data-chapter="s5" id="s5">
+  <p class="kicker" style="color:var(--lrn-what)">GOTHIC · 纵深体验</p>
+  <h2 class="h2">光的圣殿：哥特教堂的室内体验</h2>
+  <div class="photo-2 mt-m">
+    <div class="photo-card"><img src="images/02_notre_dame_int.jpg" alt="巴黎圣母院内部"><div class="cap">巴黎圣母院中殿 · 彩色玻璃渲染的神圣光</div></div>
+    <div class="photo-card"><img src="images/01_roman_aqueduct.jpg" alt="古罗马引水渠"><div class="cap">对比：罗马工程美学 · 加尔水道桥</div></div>
+  </div>
+  <div class="grid g2 mt-m">
+    <div class="block block-def">
+      <span class="block-label">哥特空间特征</span>
+      <p>① <strong>垂直性</strong>：高度/宽度比极大（如亚眠大教堂 42m/14m）<br>② <strong>线性纵深</strong>：中殿引导视线向祭坛<br>③ <strong>光的神秘性</strong>：彩色玻璃使自然光"神圣化"</p>
+    </div>
+    <div class="block block-counter">
+      <span class="block-label">常见误解</span>
+      <p>❌ "哥特=黑暗阴森" → 正解：哥特教堂追求的是<strong>光</strong>，彩色玻璃让内部比罗曼式教堂明亮得多。<br>❌ "哥特来自哥特人" → 正解：文艺复兴时期对中世纪的蔑称，与哥特蛮族无关。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 7. RENAISSANCE 1 ═══ -->
+<section class="slide" data-title="文艺复兴 · 人文回归" data-chapter="s6" id="s6">
+  <p class="kicker" style="color:var(--lrn-what)">RENAISSANCE · 15-16世纪</p>
+  <h2 class="h2">文艺复兴：从神到人——比例与秩序的回归</h2>
+  <div class="photo-2 mt-m">
+    <div class="photo-card"><img src="images/03_palladio_villa.jpg" alt="圆厅别墅"><div class="cap">帕拉第奥 · 圆厅别墅 — 完美对称的文艺复兴理想</div></div>
+    <div class="photo-card"><img src="images/03_florence_duomo.jpg" alt="佛罗伦萨大教堂"><div class="cap">布鲁内莱斯基 · 圣母百花大教堂穹顶 — 工程奇迹</div></div>
+  </div>
+  <div class="block block-def mt-m">
+    <span class="block-label">核心思想</span>
+    <div class="def-text">复兴古希腊罗马的<strong>比例系统</strong>与<strong>人文精神</strong>。建筑从表达"上帝的荣光"转向表达"人的理性与和谐"。布鲁内莱斯基发明线性透视，阿尔伯蒂写下《论建筑》——建筑第一次成为一门<strong>可以书写的知识</strong>。</div>
+  </div>
+</section>
+
+<!-- ═══ 8. RENAISSANCE 2 ═══ -->
+<section class="slide" data-title="文艺复兴 · 圆顶革命" data-chapter="s7" id="s7">
+  <p class="kicker" style="color:var(--lrn-what)">RENAISSANCE · 圆顶</p>
+  <h2 class="h2">圆顶的竞争：从佛罗伦萨到罗马</h2>
+  <div class="photo-2 mt-m">
+    <div class="photo-card"><img src="images/03_st_peters_ext.jpg" alt="圣彼得大教堂"><div class="cap">圣彼得大教堂 · 米开朗基罗设计的穹顶主宰罗马天际线</div></div>
+    <div class="photo-card"><img src="images/03_st_peters_int.jpg" alt="圣彼得大教堂内部"><div class="cap">圣彼得大教堂内部 · 贝尔尼尼的青铜华盖</div></div>
+  </div>
+  <div class="block block-steps mt-m">
+    <span class="block-label">圆顶技术演进</span>
+    <div class="steps-list">
+      <div class="step"><span class="step-num">1</span><span>万神殿（AD 126）：单层混凝土穹顶，顶部开天窗</span></div>
+      <div class="step"><span class="step-num">2</span><span>圣母百花（1436）：布鲁内莱斯基<strong>双层壳体</strong>+鱼骨砌法，不用脚手架</span></div>
+      <div class="step"><span class="step-num">3</span><span>圣彼得（1590）：米开朗基罗将穹顶推高到视觉极致，成为巴洛克先声</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 9. BAROQUE 1 ═══ -->
+<section class="slide" data-title="巴洛克 · 戏剧光影" data-chapter="s8" id="s8">
+  <p class="kicker" style="color:var(--lrn-why)">BAROQUE · 17-18世纪</p>
+  <h2 class="h2">巴洛克：建筑的戏剧——光影与动感</h2>
+  <div class="photo-2 mt-m">
+    <div class="photo-card"><img src="images/04_baroque_church.jpg" alt="巴洛克教堂内部"><div class="cap">巴洛克教堂内部 — 金色华盖与弧线交织的幻觉空间</div></div>
+    <div class="photo-card"><img src="images/04_baroque_facade.jpg" alt="巴洛克立面"><div class="cap">巴洛克立面 — 凹凸起伏的墙面制造光影戏剧</div></div>
+  </div>
+  <div class="block block-def mt-m">
+    <span class="block-label">巴洛克 vs 文艺复兴</span>
+    <p>文艺复兴追求<strong>理性、静态、和谐</strong>；巴洛克追求<strong>情感、动态、戏剧性</strong>。如果文艺复兴是"深思熟虑的学者"，巴洛克就是"激情澎湃的演说家"。</p>
+  </div>
+</section>
+
+<!-- ═══ 10. BAROQUE 2 ═══ -->
+<section class="slide" data-title="巴洛克 · 凡尔赛" data-chapter="s9" id="s9">
+  <p class="kicker" style="color:var(--lrn-why)">BAROQUE · 权力美学</p>
+  <h2 class="h2">凡尔赛宫：绝对权力的建筑宣言</h2>
+  <div class="photo-2 mt-m">
+    <div class="photo-card"><img src="images/04_versailles_ext.jpg" alt="凡尔赛宫外观"><div class="cap">凡尔赛宫 · 古典立面+巴洛克尺度</div></div>
+    <div class="photo-card"><img src="images/04_versailles_hall.jpg" alt="镜厅"><div class="cap">镜厅 · 357面镜子反射无限权力幻象</div></div>
+  </div>
+  <div class="block block-callout warn mt-m">
+    <p><span class="callout-icon">🎭</span> <strong>巴洛克的政治功能：</strong>反宗教改革的天主教会用巴洛克教堂的感官冲击<strong>留住信徒</strong>；路易十四用凡尔赛宫的尺度<strong>震慑贵族</strong>。建筑从不只是建筑——它是权力的可视化。</p>
+  </div>
+</section>
+
+<!-- ═══ 11. NEOCLASSICAL ═══ -->
+<section class="slide" data-title="新古典主义" data-chapter="s10" id="s10">
+  <p class="kicker" style="color:var(--lrn-what)">NEOCLASSICAL · 18-19世纪</p>
+  <h2 class="h2">新古典主义：理性的回归——去装饰，回本源</h2>
+  <div class="photo-3 mt-m">
+    <div class="photo-card"><img src="images/05_us_capitol.jpg" alt="美国国会大厦"><div class="cap">美国国会大厦 · 民主=雅典的隐喻</div></div>
+    <div class="photo-card"><img src="images/05_british_museum.jpg" alt="大英博物馆"><div class="cap">大英博物馆 · 希腊复兴式</div></div>
+    <div class="photo-card"><img src="images/05_brandenburg_gate.jpg" alt="勃兰登堡门"><div class="cap">勃兰登堡门 · 新古典地标</div></div>
+  </div>
+  <div class="block block-motivation mt-m">
+    <span class="block-label">为什么诞生</span>
+    <p>18世纪启蒙运动 + 庞贝古城考古发现 → 对巴洛克/洛可可<strong>过度装饰</strong>的反叛。建筑师说："我们要回到古希腊罗马的纯粹。"法国大革命后的新政权<strong>用新古典建筑来暗示自己继承的是雅典民主和罗马共和</strong>。</p>
+  </div>
+</section>
+
+<!-- ═══ 12. ART NOUVEAU ═══ -->
+<section class="slide" data-title="新艺术运动" data-chapter="s11" id="s11">
+  <p class="kicker" style="color:var(--lrn-what)">ART NOUVEAU · 1890-1910</p>
+  <h2 class="h2">新艺术运动：拒绝历史——让建筑长出自然的曲线</h2>
+  <div class="photo-2x1 mt-m">
+    <div class="photo-card"><img src="images/06_casa_batllo.jpg" alt="巴特罗之家"><div class="cap">高迪 · 巴特罗之家 — 骨骼般的阳台，龙鳞般的屋顶</div></div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="photo-card"><img src="images/06_horta_staircase.jpg" alt="奥塔楼梯"><div class="cap">维克多·奥塔 · 植物藤蔓般的铁艺</div></div>
+      <div class="photo-card"><img src="images/06_art_nouveau_metro.jpg" alt="巴黎地铁入口"><div class="cap">吉马尔 · 巴黎地铁入口</div></div>
+    </div>
+  </div>
+  <div class="block block-def mt-m">
+    <span class="block-label">核心宣言</span>
+    <p>新艺术运动是<strong>第一个主动与传统决裂的现代运动</strong>。它拒绝照搬历史风格，用<strong>自然中的曲线</strong>（藤蔓、波浪、花卉）替代直线和古典柱式。高迪说："直线属于人类，曲线属于上帝。"</p>
+  </div>
+</section>
+
+<!-- ═══ 13. ART DECO ═══ -->
+<section class="slide" data-title="装饰艺术" data-chapter="s12" id="s12">
+  <p class="kicker" style="color:var(--lrn-what)">ART DECO · 1920-1940</p>
+  <h2 class="h2">装饰艺术：几何、速度与机器时代的奢华</h2>
+  <div class="photo-2 mt-m">
+    <div class="photo-card"><img src="images/07_chrysler_building.jpg" alt="克莱斯勒大厦"><div class="cap">克莱斯勒大厦 · 不锈钢太阳纹尖顶——Art Deco之巅</div></div>
+    <div class="photo-card"><img src="images/07_art_deco_lobby.jpg" alt="Art Deco大堂"><div class="cap">Art Deco 酒店大堂 · 几何对称的奢华</div></div>
+  </div>
+  <div class="block block-compare mt-m">
+    <span class="block-label">Art Nouveau vs Art Deco</span>
+    <table class="compare-table">
+      <tr><th></th><th>新艺术运动</th><th>装饰艺术</th></tr>
+      <tr><td>线条</td><td>有机曲线 · 不对称</td><td>几何直线 · 对称</td></tr>
+      <tr><td>灵感</td><td>自然 · 植物</td><td>机器 · 速度 · 古埃及</td></tr>
+      <tr><td>气质</td><td>手工 · 诗意</td><td>工业 · 奢华</td></tr>
+      <tr><td>代表</td><td>高迪 · 奥塔</td><td>克莱斯勒大厦 · 帝国大厦</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ═══ 14. MODERNISM 1 ═══ -->
+<section class="slide" data-title="现代主义 · 形式服从功能" data-chapter="s13" id="s13">
+  <p class="kicker" style="color:var(--lrn-how)">MODERNISM · 1920-1960</p>
+  <h2 class="h2">现代主义：形式服从功能——删除一切多余</h2>
+  <div class="photo-2 mt-m">
+    <div class="photo-card"><img src="images/08_villa_savoye.jpg" alt="萨伏伊别墅"><div class="cap">勒·柯布西耶 · 萨伏伊别墅 — "居住的机器"</div></div>
+    <div class="photo-card"><img src="images/08_seagram_building.jpg" alt="西格拉姆大厦"><div class="cap">密斯 · 西格拉姆大厦 — "少即是多"的极致</div></div>
+  </div>
+  <div class="block block-def mt-m">
+    <span class="block-label">现代主义五大原则（柯布西耶，1926）</span>
+    <p>① <strong>底层架空</strong>（pilotis） ② <strong>自由平面</strong> ③ <strong>自由立面</strong> ④ <strong>水平长窗</strong> ⑤ <strong>屋顶花园</strong>——这五条彻底把建筑从承重墙中解放出来。</p>
+  </div>
+</section>
+
+<!-- ═══ 15. MODERNISM 2 ═══ -->
+<section class="slide" data-title="现代主义 · 包豪斯" data-chapter="s14" id="s14">
+  <p class="kicker" style="color:var(--lrn-how)">MODERNISM · 包豪斯</p>
+  <h2 class="h2">包豪斯：当建筑遇上工业设计</h2>
+  <div class="photo-2 mt-m">
+    <div class="photo-card"><img src="images/08_bauhaus_dessau.jpg" alt="包豪斯校舍"><div class="cap">格罗皮乌斯 · 德绍包豪斯校舍 — 玻璃幕墙的宣言</div></div>
+    <div class="photo-card"><img src="images/08_barcelona_pavilion.jpg" alt="巴塞罗那馆"><div class="cap">密斯 · 巴塞罗那德国馆 — 流动空间的范本</div></div>
+  </div>
+  <div class="block block-callout info mt-m">
+    <p><span class="callout-icon">🏭</span> <strong>包豪斯的野心：</strong>不只要改变建筑，要改变<strong>所有人类制造物</strong>——从茶壶到城市。它把工厂生产、几何纯粹、功能理性注入从家具到摩天楼的一切。你坐的那把钢管椅，源头就是包豪斯。</p>
+  </div>
+</section>
+
+<!-- ═══ 16. BRUTALISM ═══ -->
+<section class="slide" data-title="粗野主义" data-chapter="s15" id="s15">
+  <p class="kicker" style="color:var(--lrn-pitfall)">BRUTALISM · 1950-1970</p>
+  <h2 class="h2">粗野主义：混凝土的真实——不修饰，不伪装</h2>
+  <div class="photo-3 mt-m">
+    <div class="photo-card"><img src="images/09_boston_city_hall.jpg" alt="波士顿市政厅"><div class="cap">波士顿市政厅 · 混凝土纪念性</div></div>
+    <div class="photo-card"><img src="images/09_barbican_estate.jpg" alt="巴比肯"><div class="cap">伦敦巴比肯 · 粗野主义住宅群</div></div>
+    <div class="photo-card"><img src="images/09_brutalist_texture.jpg" alt="混凝土纹理"><div class="cap">木模板留下的混凝土纹理</div></div>
+  </div>
+  <div class="block block-def mt-m">
+    <span class="block-label">béton brut = "裸露的混凝土"</span>
+    <p>柯布西耶创造的术语。粗野主义拒绝把混凝土粉刷遮盖——它说：<strong>材料应该诚实</strong>。模板的木纹、浇筑的瑕疵，全留着。这是建筑伦理：不伪装。</p>
+  </div>
+</section>
+
+<!-- ═══ 17. POSTMODERN 1 ═══ -->
+<section class="slide" data-title="后现代主义 · 戏谑与引用" data-chapter="s16" id="s16">
+  <p class="kicker" style="color:var(--lrn-case)">POSTMODERN · 1970-1990</p>
+  <h2 class="h2">后现代主义：把历史请回来——但请微笑着引用它</h2>
+  <div class="photo-2 mt-m">
+    <div class="photo-card"><img src="images/10_piazza_italia.jpg" alt="意大利广场"><div class="cap">查尔斯·摩尔 · 新奥尔良意大利广场 — 霓虹+古典柱式</div></div>
+    <div class="photo-card"><img src="images/10_atnt_building.jpg" alt="AT&T大厦"><div class="cap">菲利普·约翰逊 · AT&T大厦 — 齐本德尔式山花</div></div>
+  </div>
+  <div class="block block-def mt-m">
+    <span class="block-label">后现代主义的"游戏规则"</span>
+    <p>现代主义说"装饰是罪恶"（Adolf Loos），后现代说"<strong>少即是无聊</strong>"（Robert Venturi）。它<strong>戏谑地引用历史</strong>——把古典山花放大到摩天楼顶，在广场上用霓虹灯画爱奥尼柱式。关键态度：不是虔诚地模仿，而是<strong>带着笑眼的拼贴</strong>。</p>
+  </div>
+</section>
+
+<!-- ═══ 18. POSTMODERN 2 ═══ -->
+<section class="slide" data-title="后现代主义 · 多元与折中" data-chapter="s17" id="s17">
+  <p class="kicker" style="color:var(--lrn-case)">POSTMODERN · 多元</p>
+  <h2 class="h2">后现代的城市观：语境、文脉与"地方的灵魂"</h2>
+  <div class="photo-2 mt-m">
+    <div class="photo-card"><img src="images/10_postmodern_color.jpg" alt="后现代色彩建筑"><div class="cap">后现代建筑 · 色彩与历史符号的拼贴</div></div>
+    <div class="photo-card"><img src="images/05_neoclassical_int.jpg" alt="新古典室内"><div class="cap">对比：新古典主义的"严肃引用"</div></div>
+  </div>
+  <div class="block block-compare mt-m">
+    <span class="block-label">现代主义 vs 后现代主义</span>
+    <table class="compare-table">
+      <tr><th></th><th>现代主义</th><th>后现代主义</th></tr>
+      <tr><td>装饰</td><td>罪恶</td><td>必要的趣味</td></tr>
+      <tr><td>历史</td><td>要打碎</td><td>可以致敬/戏仿</td></tr>
+      <tr><td>态度</td><td>严肃 · 普适</td><td>幽默 · 在地</td></tr>
+      <tr><td>名言</td><td>"少即是多"</td><td>"少即是无聊"</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ═══ 19. DECONSTRUCTIVISM ═══ -->
+<section class="slide" data-title="解构主义" data-chapter="s18" id="s18">
+  <p class="kicker" style="color:var(--lrn-case)">DECONSTRUCTIVISM · 1980-至今</p>
+  <h2 class="h2">解构主义：打破所有秩序——建筑在"崩塌"中跳舞</h2>
+  <div class="photo-2 mt-m">
+    <div class="photo-card"><img src="images/11_guggenheim_bilbao.jpg" alt="毕尔巴鄂古根海姆"><div class="cap">弗兰克·盖里 · 毕尔巴鄂古根海姆 — 钛合金的流动雕塑</div></div>
+    <div class="photo-card"><img src="images/11_dancing_house.jpg" alt="跳舞的房子"><div class="cap">盖里 · 布拉格"跳舞的房子" — 一栋在拥抱的建筑</div></div>
+  </div>
+  <div class="block block-def mt-m">
+    <span class="block-label">解构≠拆毁</span>
+    <p>解构主义借用了德里达的哲学术语，但建筑上的解构不是拆房子——是把<strong>直角、对称、稳定</strong>这些古典建筑的基本假定统统打碎。建筑看起来像在崩塌、扭曲、漂浮……但结构工程师算过，<strong>它站得住</strong>。</p>
+  </div>
+</section>
+
+<!-- ═══ 20. HIGH-TECH ═══ -->
+<section class="slide" data-title="高技派" data-chapter="s19" id="s19">
+  <p class="kicker" style="color:var(--lrn-how)">HIGH-TECH · 1970-至今</p>
+  <h2 class="h2">高技派：把内脏翻到外面——机械本身就是装饰</h2>
+  <div class="photo-2 mt-m">
+    <div class="photo-card"><img src="images/12_pompidou_center.jpg" alt="蓬皮杜中心"><div class="cap">皮亚诺+罗杰斯 · 蓬皮杜中心 — 彩色管道=立面</div></div>
+    <div class="photo-card"><img src="images/12_lloyds_building.jpg" alt="劳埃德大厦"><div class="cap">罗杰斯 · 伦敦劳埃德大厦 — 服务塔外挂</div></div>
+  </div>
+  <div class="block block-callout info mt-m">
+    <p><span class="callout-icon">🔧</span> <strong>高技派的宣言：</strong>传统建筑把结构、管道、楼梯<strong>藏起来</strong>；高技派把它们<strong>暴露出来并涂上颜色</strong>——绿色水管、蓝色空调管、红色电梯。建筑变得像一台巨大的机器，但这台机器<strong>不羞于展示自己的内脏</strong>。</p>
+  </div>
+</section>
+
+<!-- ═══ 21. MINIMALISM ═══ -->
+<section class="slide" data-title="极简主义" data-chapter="s20" id="s20">
+  <p class="kicker" style="color:var(--lrn-how)">MINIMALISM · 1960-至今</p>
+  <h2 class="h2">极简主义：光、混凝土、寂静——安藤忠雄的精神空间</h2>
+  <div class="photo-2 mt-m">
+    <div class="photo-card"><img src="images/13_church_of_light.jpg" alt="光之教堂"><div class="cap">安藤忠雄 · 光之教堂 — 十字光缝是唯一的装饰</div></div>
+    <div class="photo-card"><img src="images/13_minimalist_villa.jpg" alt="极简别墅"><div class="cap">极简别墅 · 白墙+玻璃+天空</div></div>
+  </div>
+  <div class="block block-def mt-m">
+    <span class="block-label">极简≠简单</span>
+    <p>极简主义建筑用<strong>最少的元素</strong>创造<strong>最深的体验</strong>。在光之教堂里，一面混凝土墙被切出十字缝隙——那就是全部的"装饰"。但阳光穿过缝隙时，整个空间被<strong>转化为神圣</strong>。极简是关于<strong>留白的力量</strong>。</p>
+  </div>
+</section>
+
+<!-- ═══ 22. ORGANIC ═══ -->
+<section class="slide" data-title="有机建筑" data-chapter="s21" id="s21">
+  <p class="kicker" style="color:var(--lrn-how)">ORGANIC · 20世纪</p>
+  <h2 class="h2">有机建筑：让建筑从土地里长出来——赖特的"草原精神"</h2>
+  <div class="photo-2 mt-m">
+    <div class="photo-card"><img src="images/14_fallingwater.jpg" alt="流水别墅"><div class="cap">弗兰克·劳埃德·赖特 · 流水别墅 — 悬挑在瀑布之上</div></div>
+    <div class="photo-card"><img src="images/14_guggenheim_ny.jpg" alt="古根海姆纽约"><div class="cap">赖特 · 纽约古根海姆 — 螺旋坡道的有机流动</div></div>
+  </div>
+  <div class="block block-def mt-m">
+    <span class="block-label">"有机"是什么意思</span>
+    <p>不是"植物覆盖"，而是建筑像<strong>生物一样与环境共生</strong>。流水别墅的水平线条呼应匹兹堡的岩层；它的悬挑结构就像树木伸出枝干。赖特说："<strong>一栋建筑应该像是从场地上长出来的。</strong>"</p>
+  </div>
+</section>
+
+<!-- ═══ 23. NEW CHINESE 1 ═══ -->
+<section class="slide" data-title="新中式 · 传统转译" data-chapter="s22" id="s22">
+  <p class="kicker" style="color:var(--lrn-solution)">NEW CHINESE · 2000-至今</p>
+  <h2 class="h2">新中式：不是仿古，是转译——用当代语言说中国话</h2>
+  <div class="photo-2 mt-m">
+    <div class="photo-card"><img src="images/15_suzhou_museum.jpg" alt="苏州博物馆"><div class="cap">贝聿铭 · 苏州博物馆 — "中而新，苏而新"</div></div>
+    <div class="photo-card"><img src="images/15_new_courtyard.jpg" alt="新中式庭院"><div class="cap">新中式合院 · 用当代极简演绎四合院</div></div>
+  </div>
+  <div class="block block-def mt-m">
+    <span class="block-label">新中式的核心问题</span>
+    <p>不是"盖一个仿古建筑"（那是假古董），而是<strong>用现代材料、现代结构、现代生活逻辑，去表达中国建筑的精神内核</strong>——空间的层次、与自然的关系、材料的温度、意境而非形式。</p>
+  </div>
+</section>
+
+<!-- ═══ 24. NEW CHINESE 2 ═══ -->
+<section class="slide" data-title="新中式 · 材料与空间" data-chapter="s23" id="s23">
+  <p class="kicker" style="color:var(--lrn-solution)">NEW CHINESE · 材料</p>
+  <h2 class="h2">新中式的材料观：木、石、钢、玻璃的东方叙事</h2>
+  <div class="photo-2 mt-m">
+    <div class="photo-card"><img src="images/15_chinese_pavilion.jpg" alt="新中式亭阁"><div class="cap">当代钢木结构亭阁 · 斗拱的现代演绎</div></div>
+    <div class="photo-card"><img src="images/15_new_teahouse.jpg" alt="新中式茶室"><div class="cap">新中式茶室 · 木格栅与水墨意境</div></div>
+  </div>
+  <div class="block block-steps mt-m">
+    <span class="block-label">新中式的设计手法</span>
+    <div class="steps-list">
+      <div class="step"><span class="step-num">1</span><span><strong>抽象</strong>：不复制斗拱，但保留"层叠出挑"的力学诗意</span></div>
+      <div class="step"><span class="step-num">2</span><span><strong>转译</strong>：窗棂纹样变成现代穿孔板的光影</span></div>
+      <div class="step"><span class="step-num">3</span><span><strong>保留</strong>：庭院、借景、框景——空间关系比符号更重要</span></div>
+      <div class="step"><span class="step-num">4</span><span><strong>融入</strong>：混凝土+木格栅、钢+竹——当代材料也能有温度</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 25. NEW CHINESE 3 ═══ -->
+<section class="slide" data-title="新中式 · 园林新解" data-chapter="s24" id="s24">
+  <p class="kicker" style="color:var(--lrn-solution)">NEW CHINESE · 园林</p>
+  <h2 class="h2">园林新解：从"一步一景"到当代空间叙事</h2>
+  <div class="photo-3 mt-m">
+    <div class="photo-card"><img src="images/15_chinese_garden.jpg" alt="新中式园林"><div class="cap">新中式园林 · 几何水面+雕塑太湖石</div></div>
+    <div class="photo-card"><img src="images/15_bamboo_structure.jpg" alt="竹构建筑"><div class="cap">参数化竹构 · 传统材料的当代形态</div></div>
+    <div class="photo-card"><img src="images/13_and_water_temple.jpg" alt="水御堂"><div class="cap">安藤忠雄 · 水御堂 — 东方精神空间</div></div>
+  </div>
+  <div class="block block-callout info mt-m">
+    <p><span class="callout-icon">🌿</span> <strong>新中式的园林哲学：</strong>苏州园林的"移步换景"本质上是<strong>时间在空间中的展开</strong>——你每走一步，视野就重构一次。新中式园林不复制亭台楼阁，而是保留这种<strong>"行走中的发现"</strong>体验，用当代的几何语言重新编排。</p>
+  </div>
+</section>
+
+<!-- ═══ 26. COMPARISON PANORAMA ═══ -->
+<section class="slide" data-title="流派全景对比" data-chapter="s25" id="s25">
+  <p class="kicker" style="color:var(--lrn-compare-a)">CONTRAST · 全景</p>
+  <h2 class="h2">15 个流派的建筑语言——一张图看懂</h2>
+  <div class="photo-2 mt-m">
+    <div class="photo-card"><img src="images/16_skyline_classical.jpg" alt="古典天际线"><div class="cap">古典城市天际线 · 尖塔与穹顶</div></div>
+    <div class="photo-card"><img src="images/16_skyline_modern.jpg" alt="现代天际线"><div class="cap">当代城市天际线 · 多元共存</div></div>
+  </div>
+  <div class="block block-summary mt-m">
+    <table class="summary-table">
+      <thead><tr><th>流派</th><th>关键词</th><th>态度</th><th>时代</th></tr></thead>
+      <tbody>
+        <tr><td>古典</td><td>柱式·比例</td><td>追求永恒秩序</td><td>BC 5C-AD 4C</td></tr>
+        <tr><td>哥特</td><td>飞扶壁·尖拱·光</td><td>向上接近上帝</td><td>12-16C</td></tr>
+        <tr><td>文艺复兴</td><td>圆顶·透视·人文</td><td>回归人的尺度</td><td>15-16C</td></tr>
+        <tr><td>巴洛克</td><td>曲线·光影·戏剧</td><td>感官的狂欢</td><td>17-18C</td></tr>
+        <tr><td>新古典</td><td>几何·纯粹·理性</td><td>启蒙的理想</td><td>18-19C</td></tr>
+        <tr><td>新艺术</td><td>有机曲线·自然</td><td>与传统决裂</td><td>1890-1910</td></tr>
+        <tr><td>Art Deco</td><td>几何·奢华·速度</td><td>机器时代审美</td><td>1920-40</td></tr>
+        <tr><td>现代主义</td><td>功能·无装饰·普适</td><td>建筑可以改变世界</td><td>1920-60</td></tr>
+        <tr><td>粗野主义</td><td>裸露混凝土·诚实</td><td>材料不说谎</td><td>1950-70</td></tr>
+        <tr><td>后现代</td><td>引用·戏仿·多元</td><td>历史是玩具箱</td><td>1970-90</td></tr>
+        <tr><td>解构</td><td>破碎·扭曲·动态</td><td>秩序是幻觉</td><td>1980-</td></tr>
+        <tr><td>高技</td><td>暴露结构·机械美</td><td>技术即装饰</td><td>1970-</td></tr>
+        <tr><td>极简</td><td>留白·光·寂静</td><td>少到极致即是多</td><td>1960-</td></tr>
+        <tr><td>有机</td><td>与自然共生</td><td>建筑从土地长出</td><td>1900-</td></tr>
+        <tr><td>新中式</td><td>转译·气韵·当代</td><td>用现代语言说中国话</td><td>2000-</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══ 27. DIMENSIONAL COMPARISON ═══ -->
+<section class="slide" data-title="要素维度横评" data-chapter="s26" id="s26">
+  <p class="kicker" style="color:var(--lrn-compare-a)">CONTRAST · 维度</p>
+  <h2 class="h2">五个维度看建筑流派——它们分别在追求什么？</h2>
+  <div class="block block-compare mt-m">
+    <span class="block-label">五维横评</span>
+    <table class="compare-table" style="font-size:13px">
+      <thead><tr><th>流派</th><th>结构逻辑</th><th>装饰态度</th><th>空间哲学</th><th>材料语言</th><th>与自然关系</th></tr></thead>
+      <tbody>
+        <tr><td>古典</td><td>梁柱+拱券</td><td>比例即装饰</td><td>外部朝向</td><td>大理石·凝灰岩</td><td>征服</td></tr>
+        <tr><td>哥特</td><td>骨架+飞扶壁</td><td>光=装饰</td><td>垂直向上</td><td>石材·彩色玻璃</td><td>超越</td></tr>
+        <tr><td>现代主义</td><td>框架+自由平面</td><td>拒绝装饰</td><td>普适空间</td><td>钢·玻璃·混凝土</td><td>隔离</td></tr>
+        <tr><td>有机</td><td>融入地形</td><td>材料即装饰</td><td>流动连续</td><td>当地石材·木材</td><td>共生</td></tr>
+        <tr><td>解构</td><td>反重力错觉</td><td>破碎=装饰</td><td>运动·张力</td><td>钛·钢·曲面玻璃</td><td>对峙</td></tr>
+        <tr><td>极简</td><td>减法到极限</td><td>光=装饰</td><td>冥想·寂静</td><td>清水混凝土</td><td>抽象</td></tr>
+        <tr><td>新中式</td><td>现代框架+传统意向</td><td>意境>符号</td><td>层次·借景</td><td>木·石·钢·玻璃</td><td>对话</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══ 28. HOW TO READ ═══ -->
+<section class="slide" data-title="如何读懂建筑" data-chapter="s27" id="s27">
+  <p class="kicker" style="color:var(--lrn-how)">METHOD · 方法论</p>
+  <h2 class="h2">如何读懂一栋建筑——四步法</h2>
+  <div class="photo-2 mt-m">
+    <div class="photo-card"><img src="images/16_architect_sketch.jpg" alt="建筑草图"><div class="cap">建筑师的工作台 · 从草图开始阅读建筑</div></div>
+    <div class="photo-card"><img src="images/12_high_tech_detail.jpg" alt="结构细部"><div class="cap">结构的诚实表达 · 高技派细部</div></div>
+  </div>
+  <div class="block block-steps mt-m">
+    <span class="block-label">四步阅读法</span>
+    <div class="steps-list">
+      <div class="step"><span class="step-num">1</span><span><strong>看结构</strong>：它是怎么站住的？梁柱？拱券？悬挑？这决定了它属于哪个技术时代。</span></div>
+      <div class="step"><span class="step-num">2</span><span><strong>读比例</strong>：高/宽比、柱间距、开窗率——比例是建筑师的"语法"。</span></div>
+      <div class="step"><span class="step-num">3</span><span><strong>辨装饰</strong>：装饰是"加的"还是"结构本身"？是有机的还是几何的？装饰态度=时代态度。</span></div>
+      <div class="step"><span class="step-num">4</span><span><strong>感空间</strong>：走进去是什么感受？压抑/崇高/亲切/敬畏？空间体验是建筑的终极目的。</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 29. REVIEW ═══ -->
+<section class="slide review" data-title="章末复习" data-chapter="review" id="review">
+  <p class="kicker">📋 章末复习</p>
+  <h2 class="h2">回顾：15 个建筑流派，你记住了什么？</h2>
+  <div class="block block-summary mt-l">
+    <table class="summary-table">
+      <thead><tr><th>流派</th><th>一句话</th><th>核心创新</th><th>代表建筑</th></tr></thead>
+      <tbody>
+        <tr><td>古典</td><td>柱式=西方建筑语法</td><td>比例系统·混凝土</td><td>帕特农·万神殿</td></tr>
+        <tr><td>哥特</td><td>飞扶壁解放了墙→光</td><td>骨架结构·彩色玻璃</td><td>巴黎圣母院·沙特尔</td></tr>
+        <tr><td>文艺复兴</td><td>把建筑从上帝还给人类</td><td>线性透视·双层穹顶</td><td>圣母百花·圣彼得</td></tr>
+        <tr><td>巴洛克</td><td>用曲线和光影制造戏剧</td><td>椭圆平面·幻觉天顶</td><td>凡尔赛宫·镜厅</td></tr>
+        <tr><td>新古典</td><td>启蒙理性回到希腊源头</td><td>纯粹几何·宏大尺度</td><td>美国国会·大英博物馆</td></tr>
+        <tr><td>新艺术</td><td>首次主动与传统决裂</td><td>有机曲线·铁艺</td><td>巴特罗之家·奥塔住宅</td></tr>
+        <tr><td>Art Deco</td><td>机器时代的几何奢华</td><td>对称·锯齿·新材料</td><td>克莱斯勒大厦</td></tr>
+        <tr><td>现代主义</td><td>形式服从功能</td><td>自由平面·幕墙</td><td>萨伏伊·包豪斯</td></tr>
+        <tr><td>粗野</td><td>混凝土不需要化妆</td><td>béton brut·诚实</td><td>巴比肯·波士顿市政厅</td></tr>
+        <tr><td>后现代</td><td>把历史当玩具</td><td>戏仿·拼贴·色彩</td><td>意大利广场·AT&T</td></tr>
+        <tr><td>解构</td><td>打碎直角和对称</td><td>曲面·倾斜·碎片</td><td>毕尔巴鄂古根海姆</td></tr>
+        <tr><td>高技</td><td>内脏外露的机器美学</td><td>暴露结构·彩色管道</td><td>蓬皮杜·劳埃德</td></tr>
+        <tr><td>极简</td><td>用最少的元素说最多的话</td><td>清水混凝土·留白</td><td>光之教堂</td></tr>
+        <tr><td>有机</td><td>建筑应该从土地长出来</td><td>融入地形·水平线条</td><td>流水别墅·古根海姆</td></tr>
+        <tr><td>新中式</td><td>用当代语言说中国话</td><td>抽象转译·意境再造</td><td>苏州博物馆</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="block block-selfcheck mt-l">
+    <span class="block-label">自测</span>
+    <div class="selfcheck-item">
+      <div class="selfcheck-q">Q1: 为什么说"飞扶壁是哥特建筑的关键发明"？</div>
+      <div class="selfcheck-a">飞扶壁把屋顶侧推力传导到外部→墙体不再承重→可以开超大窗户→"石头骨架+光"的哥特空间成为可能。</div>
+    </div>
+    <div class="selfcheck-item">
+      <div class="selfcheck-q">Q2: 现代主义的"形式服从功能"究竟是什么意思？</div>
+      <div class="selfcheck-a">建筑的外形应该由内部功能决定，而不是套用历史风格。一栋住宅就应该看起来像住宅，而不是伪装成希腊神庙。</div>
+    </div>
+    <div class="selfcheck-item">
+      <div class="selfcheck-q">Q3: 后现代主义与现代主义的根本分歧在哪？</div>
+      <div class="selfcheck-a">现代主义相信"普适答案"（好建筑的标准全球统一）；后现代相信"语境决定意义"（建筑应该回应具体的地点、文化、历史）。</div>
+    </div>
+    <div class="selfcheck-item">
+      <div class="selfcheck-q">Q4: 新中式与"仿古建筑"的区别是什么？</div>
+      <div class="selfcheck-a">仿古是形式复制（假古董）；新中式是精神转译——用当代材料与结构表达中国空间哲学（层次、借景、材料温度），不复制符号。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 30. END ═══ -->
+<section class="slide cover" data-title="结束" data-chapter="end" id="end">
+  <p class="kicker anim-fade-up">建筑艺术 · 完</p>
+  <h1 class="h1 anim-fade-up">你的城市，你读懂了哪一栋？</h1>
+  <p class="lede anim-fade-up">下次走过一栋建筑时——停下来。<br>看它的结构、比例、装饰、空间。<br>它在用石头、混凝土或玻璃，说着属于它时代的语言。</p>
+  <div class="cover-meta">
+    <p class="dim" style="margin-top:32px">🏛️ 15 个流派 · 🖼️ 60+ 张建筑影像 · 📐 1 套阅读方法</p>
+  </div>
+</section>
+
+</div><!-- .deck -->
+</main>
+
+<script src="../../assets/katex/katex.min.js"></script>
+<script src="../../assets/katex/auto-render.min.js"></script>
+<script src="../../assets/runtime.js"></script>
+</body>
+</html>
